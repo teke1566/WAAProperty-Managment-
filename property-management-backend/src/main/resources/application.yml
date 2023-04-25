@@ -1,0 +1,26 @@
+#First time use: make the following script always instead of never
+#  sql:
+#    init:
+#      mode: never
+spring:
+  application:
+    name: WAAProperty-Management
+  datasource:
+    password: 1
+    url: jdbc:postgresql://localhost:5432/PropertyManagementDB
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: never
+server:
+  port: 7070
+
