@@ -1,0 +1,48 @@
+#spring:
+#  application:
+#    name: spring-security-demo-1
+#  datasource:
+#    password: Mera1991
+#    url: jdbc:postgresql://localhost:5432/postgres
+#    username: postgres
+#  jpa:
+#    hibernate:
+#      ddl-auto: create-drop
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+#        format_sql: true
+#    show-sql: true
+#    defer-datasource-initialization: true
+#  sql:
+#    init:
+#      mode: always
+#server:
+#  port: 8080
+
+
+
+
+
+spring:
+  application:
+    name: propertymanagement
+  datasource:
+    password: Mera1991
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+    defer-datasource-initialization: true
+    generate-ddl: true
+  sql:
+    init:
+      mode: always
+server:
+  port: 8080
