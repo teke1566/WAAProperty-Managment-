@@ -86,14 +86,28 @@ public class CustomerController {
         }
     }
 
-    @PostMapping("/{customerId}/properties/{propertyId}/offers")
+    /*@PostMapping("/{customerId}/properties/{propertyId}/offers")
 
     public ResponseEntity<Object> placeOffer(@PathVariable Long customerId,
                                              @PathVariable Long propertyId,
                                              @RequestParam Double amount){
         customerService.placeOffer(customerId,propertyId,amount);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }*/
+
+    /*To make the placeOffer program accept the amount
+    parameter as a URL path variable instead of a request parameter
+    , you can modify the @PostMapping annotation as follows
+    * */
+    @PostMapping("/{customerId}/properties/{propertyId}/offers/{offerId}/{amount}")
+    public ResponseEntity<Object> placeOffer(@PathVariable Long customerId,
+                                             @PathVariable Long propertyId,
+                                             @PathVariable Long offerId,
+                                             @PathVariable Double amount){
+        customerService.placeOffer(customerId, propertyId,offerId,amount);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
 
     @PostMapping("/{customerId}/messages")
     public ResponseEntity<Object> sendMessage(@PathVariable Long customerId,

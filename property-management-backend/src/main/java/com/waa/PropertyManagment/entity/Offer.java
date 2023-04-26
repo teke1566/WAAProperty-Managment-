@@ -16,14 +16,14 @@ public class Offer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "property_id", referencedColumnName = "id")
+    //One property can have many offers associated with it
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "property_id")
     private Property property;
 
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
     User user;
     private String status;
     private Double amount;

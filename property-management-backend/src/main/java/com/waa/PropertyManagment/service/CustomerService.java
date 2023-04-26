@@ -46,12 +46,15 @@ When a customer places an offer, update the
 *  You can implement this logic in the CustomerService.
  * */
 
-    public void placeOffer(Long customerId, Long propertyId, Double amount){
+    public void placeOffer(Long customerId, Long propertyId,Long offerId, Double amount){
         Property property = propertyRepository.findById(propertyId).get();
         User user = userRepository.findById(customerId).get();
         Optional<User> userCondition=userRepository.findById(customerId);
-        if (property.getStatus().equals("available")&&(userCondition.isPresent())) {
+
+        Optional<Offer> offerCondition = offerRepository.findById(offerId);
+        if (property.getStatus().equals("AVAILABLE")&&(userCondition.isPresent())) {
             // Create a new offer for the property and customer
+
             Offer offer = new Offer();
             offer.setUser(user);
             offer.setProperty(property);
@@ -82,6 +85,7 @@ When a customer places an offer, update the
             }
         }
         else {
+            System.out.println("Cannot place order on non available property");
             throw  new IllegalStateException("Cannot place an offer on a non-available property");
         }
 
