@@ -10,14 +10,12 @@ import {
     Typography,
   } from "@mui/material";
   import { useEffect, useState } from "react";
-  import { Link } from "react-router-dom";
   import {faker} from "@faker-js/faker"
 import UserTable from "../Tables/UserTable";
   
   const AdminDashboard = () => {
     // Define state and data fetching logic here
     const [rentedProperties, setRentedProperties] = useState([]);
-    const [recentCustomers, setRecentCustomers] = useState([]);
   
     useEffect(() => {
       // Populate rented properties with fake data

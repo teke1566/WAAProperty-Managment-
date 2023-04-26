@@ -1,26 +1,14 @@
 import React, { useState } from "react";
-import {
-  Grid,
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
-  Button,
-  IconButton,
-} from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import BorderColorSharpIcon from "@mui/icons-material/BorderColorSharp";
-import CircleIcon from "@mui/icons-material/Circle";
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import { Link } from "react-router-dom";
 import styles from "./CustomerStyles";
-function CustomerDashboard(props) {
-  const [page, setPage] = useState(0);
-  const propertiesPerPage = 10; // Change this to adjust the number of properties per page
+import Filters from "../Filters";
+import Pagination from "@mui/material/Pagination";
+import PropertyList from "../PropertyList/PropertyList";
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+function CustomerDashboard(props) {
+  const [page, setPage] = useState(1);
+
+  const handleChangePage = (event, value) => {
+    setPage(value);
   };
 
   const properties = [
@@ -38,7 +26,7 @@ function CustomerDashboard(props) {
       type: "house",
       listType: "sale",
       status: "available",
-      address: "50 Riverside Blvd APT 4E, New York, NY 10069"
+      address: "50 Riverside Blvd APT 4E, New York, NY 10069",
     },
     {
       id: 2,
@@ -54,7 +42,7 @@ function CustomerDashboard(props) {
       type: "apartment",
       listType: "rent",
       status: "pending",
-      address: "50 Riverside Blvd APT 4E, New York, NY 10069"
+      address: "50 Riverside Blvd APT 4E, New York, NY 10069",
     },
     {
       id: 3,
@@ -70,7 +58,7 @@ function CustomerDashboard(props) {
       type: "condo",
       listType: "sale",
       status: "contingent",
-      address: "50 Riverside Blvd APT 4E, New York, NY 10069"
+      address: "50 Riverside Blvd APT 4E, New York, NY 10069",
     },
     {
       id: 4,
@@ -86,7 +74,7 @@ function CustomerDashboard(props) {
       type: "townhome",
       listType: "rent",
       status: "available",
-      address: "50 Riverside Blvd APT 4E, New York, NY 10069"
+      address: "50 Riverside Blvd APT 4E, New York, NY 10069",
     },
     {
       id: 5,
@@ -102,7 +90,7 @@ function CustomerDashboard(props) {
       type: "multi-family",
       listType: "sale",
       status: "pending",
-      address: "50 Riverside Blvd APT 4E, New York, NY 10069"
+      address: "50 Riverside Blvd APT 4E, New York, NY 10069",
     },
     {
       id: 6,
@@ -118,7 +106,7 @@ function CustomerDashboard(props) {
       type: "house",
       listType: "rent",
       status: "contingent",
-      address: "50 Riverside Blvd APT 4E, New York, NY 10069"
+      address: "50 Riverside Blvd APT 4E, New York, NY 10069",
     },
     {
       id: 7,
@@ -134,7 +122,7 @@ function CustomerDashboard(props) {
       type: "condo",
       listType: "sale",
       status: "pending",
-      address: "50 Riverside Blvd APT 4E, New York, NY 10069"
+      address: "50 Riverside Blvd APT 4E, New York, NY 10069",
     },
     {
       id: 8,
@@ -150,7 +138,7 @@ function CustomerDashboard(props) {
       type: "apartment",
       listType: "rent",
       status: "available",
-      address: "50 Riverside Blvd APT 4E, New York, NY 10069"
+      address: "50 Riverside Blvd APT 4E, New York, NY 10069",
     },
     {
       id: 9,
@@ -166,7 +154,7 @@ function CustomerDashboard(props) {
       type: "house",
       listType: "sale",
       status: "contingent",
-      address: "50 Riverside Blvd APT 4E, New York, NY 10069"
+      address: "50 Riverside Blvd APT 4E, New York, NY 10069",
     },
     {
       id: 10,
@@ -182,105 +170,17 @@ function CustomerDashboard(props) {
       type: "house",
       listType: "rent",
       status: "sold",
-      address: "50 Riverside Blvd APT 4E, New York, NY 10069"
+      address: "50 Riverside Blvd APT 4E, New York, NY 10069",
     },
   ];
 
-  const displayedProperties = properties.slice(
-    page * propertiesPerPage,
-    (page + 1) * propertiesPerPage
-  );
-
   return (
     <div style={styles.root}>
-        <div className="filterWrap">
-            
-        </div>
-      <Grid container spacing={2}>
-        {displayedProperties.map((property) => (
-          <Grid
-            item
-            key={property.id}
-            xs={2.4}
-            sm={2.4}
-            md={2.4}
-            lg={2.4}
-            xl={2.4}
-          >
-            <Link to={"/properties/" + property.id}>
-              <Card style={styles.card}>
-                <CardMedia
-                  component="img"
-                  height="194"
-                  image={property.image}
-                  alt={property.title}
-                />
-                <CardContent style={styles.cardContent}>
-                  <div className="statusWrap">
-                    {property.status === "available" ? (
-                      <CheckCircleIcon
-                        color="success"
-                        fontSize="small"
-                        className="statusIcon"
-                      />
-                    ) : null}
-                    {property.status === "pending" ? (
-                      <AccessTimeIcon
-                        style={{ color: "#f8b21d" }}
-                        fontSize="small"
-                        className="statusIcon"
-                      />
-                    ) : null}
-                    {property.status === "contingent" ? (
-                      <BorderColorSharpIcon
-                        style={{ color: "#f8b21d" }}
-                        fontSize="small"
-                        className="statusIcon"
-                      />
-                    ) : null}
-                    {property.status === "sold" ? (
-                      <CircleIcon
-                        color="action"
-                        fontSize="small"
-                        className="statusIcon"
-                      />
-                    ) : null}
-                    <span className="statusText">{property.status}</span>
-                  </div>
-                  <Typography
-                    style={{ fontWeight: "bold", fontSize: 20}}
-                  >
-                    {property.price}$
-                  </Typography>
-                  <Typography>
-                    <strong>{property.bedrooms}</strong> bed{" "}
-                    <strong>{property.bathrooms}</strong> bath{" "}
-                    <strong>{property.size}</strong> sqft
-                  </Typography>
-                  <Typography>
-                    <strong>{property.type}</strong> for{" "}
-                    <strong>{property.listType}</strong>
-                  </Typography>
-                  <Typography fontSize={15}>{property.address}</Typography>
-                </CardContent>
-              </Card>
-            </Link>
-          </Grid>
-        ))}
-      </Grid>
+      <Filters />
+      <PropertyList properties={properties}/>
       <div style={styles.pagination}>
-        <IconButton
-          disabled={page === 0}
-          onClick={(event) => handleChangePage(event, page - 1)}
-        >
-          <ChevronLeft />
-        </IconButton>
-        <IconButton
-          disabled={(page + 1) * propertiesPerPage >= properties.length}
-          onClick={(event) => handleChangePage(event, page + 1)}
-        >
-          <ChevronRight />
-        </IconButton>
+        {/* <Typography>Page: {page}</Typography> */}
+        <Pagination count={10} page={page} onChange={handleChangePage} />
       </div>
     </div>
   );

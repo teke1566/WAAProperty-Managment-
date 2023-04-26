@@ -6,12 +6,16 @@ import PageRoutes from "./routes/PageRoutes";
 import { BrowserRouter } from "react-router-dom";
 
 function App() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({
+    isAuthenticated: false,
+    username: null,
+    role: "viewer",
+  });
 
   return (
     <div className="App">
       <BrowserRouter>
-        <UserContext.Provider value={{user, setUser}}>
+        <UserContext.Provider value={{ user, setUser }}>
           <Header />
           <PageRoutes />
         </UserContext.Provider>

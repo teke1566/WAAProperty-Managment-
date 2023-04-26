@@ -4,7 +4,7 @@ import Dashboard from '../component/Dashboard/Dashboard';
 import LoginPage from '../container/Pages/LoginPage';
 import RegisterPage from '../container/Pages/RegisterPage';
 import ForgotPassword from '../container/Pages/ForgotPassword';
-import PropertyDetails from '../component/PropertyDetails';
+import PropertyDetails from '../component/PropertyDetails/PropertyDetails';
 
 const PageRoutes = () => {
   return (

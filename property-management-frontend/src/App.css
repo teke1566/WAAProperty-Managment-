@@ -49,3 +49,26 @@ a {
 .filterWrap {
   width: 100%;
 }
+
+.gridItem {
+  margin: 2px;
+}
+
+.propertyDetails {
+  margin: 5px;
+  display: flex;
+  flex-direction: row;
+  height: 90vh;
+}
+
+.propertyImage {
+  flex: 2;
+  height: 400px;
+}
+
+.propertyContent {
+  text-align: left;
+  flex: 1;
+  max-height: 100%;
+  overflow-y: auto;
+}

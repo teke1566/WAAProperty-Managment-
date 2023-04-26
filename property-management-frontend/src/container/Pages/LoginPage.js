@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { TextField, Button, Typography, Container, Grid } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import UserContext from "../../context/UserContext";
 
 const LoginPage = () => {
@@ -12,6 +12,7 @@ const LoginPage = () => {
   const {user, setUser} = useContext(UserContext);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,7 +34,8 @@ const LoginPage = () => {
         role: "admin"
     })
 
-    navigate('/');
+    if(location.state) navigate('/properties/' + location.state.propertyId);
+    else navigate('/');
   };
 
   return (
@@ -52,7 +54,7 @@ const LoginPage = () => {
           name="email"
           autoComplete="email"
           autoFocus
-          error={emailError}
+          error={emailError !== ""}
           helperText={emailError}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -69,7 +71,7 @@ const LoginPage = () => {
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          error={passwordError}
+          error={passwordError  !== ""}
           helperText={passwordError}
         />
         <Button type="submit" fullWidth variant="contained" color="primary">
