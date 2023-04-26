@@ -1,9 +1,7 @@
-package com.waa.PropertyManagment.Entity;
+package com.waa.PropertyManagment.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.util.List;
 
 @Entity
 @Data

@@ -1,11 +1,10 @@
-package com.waa.PropertyManagment.Service;
+package com.waa.PropertyManagment.service;
 
-import com.waa.PropertyManagment.Entity.Message;
-import com.waa.PropertyManagment.Entity.User;
-import com.waa.PropertyManagment.Repo.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.waa.PropertyManagment.entity.Message;
+import com.waa.PropertyManagment.entity.User;
+import com.waa.PropertyManagment.repository.UserRepository;
 import org.springframework.stereotype.Service;
-import com.waa.PropertyManagment.Repo.MessageRepository;
+import com.waa.PropertyManagment.repository.MessageRepository;
 
 @Service
 public class MessageService {

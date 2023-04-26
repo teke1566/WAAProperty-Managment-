@@ -1,11 +1,11 @@
-package com.waa.PropertyManagment.Controller;
+package com.waa.PropertyManagment.controller;
 
 import com.itextpdf.text.DocumentException;
-import com.waa.PropertyManagment.Entity.Offer;
-import com.waa.PropertyManagment.Entity.Property;
-import com.waa.PropertyManagment.Entity.SavedList;
-import com.waa.PropertyManagment.Entity.User;
-import com.waa.PropertyManagment.Service.*;
+import com.waa.PropertyManagment.entity.Offer;
+import com.waa.PropertyManagment.entity.Property;
+import com.waa.PropertyManagment.entity.SavedList;
+import com.waa.PropertyManagment.entity.User;
+import com.waa.PropertyManagment.service.*;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

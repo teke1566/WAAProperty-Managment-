@@ -1,8 +1,7 @@
-package com.waa.PropertyManagment.Service;
+package com.waa.PropertyManagment.service;
 
 
 import jakarta.mail.MessagingException;
-import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSender;

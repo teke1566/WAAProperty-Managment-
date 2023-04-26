@@ -1,8 +1,6 @@
-package com.waa.PropertyManagment.Repo;
+package com.waa.PropertyManagment.repository;
 
-import com.waa.PropertyManagment.Entity.Property;
-import com.waa.PropertyManagment.Entity.SavedList;
-import com.waa.PropertyManagment.Entity.User;
+import com.waa.PropertyManagment.entity.SavedList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
-package com.waa.PropertyManagment.Service;
+package com.waa.PropertyManagment.service;
 
-import com.waa.PropertyManagment.Entity.Property;
-import com.waa.PropertyManagment.Repo.PropertyRepository;
+import com.waa.PropertyManagment.entity.Property;
+import com.waa.PropertyManagment.repository.PropertyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

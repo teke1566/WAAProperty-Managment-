@@ -1,12 +1,12 @@
-package com.waa.PropertyManagment.Service;
+package com.waa.PropertyManagment.service;
 
-import com.waa.PropertyManagment.Entity.Offer;
-import com.waa.PropertyManagment.Entity.Property;
-import com.waa.PropertyManagment.Entity.User;
-import com.waa.PropertyManagment.Repo.OfferRepository;
-import com.waa.PropertyManagment.Repo.PropertyRepository;
-import com.waa.PropertyManagment.Repo.SavedListRepository;
-import com.waa.PropertyManagment.Repo.UserRepository;
+import com.waa.PropertyManagment.entity.Offer;
+import com.waa.PropertyManagment.entity.Property;
+import com.waa.PropertyManagment.entity.User;
+import com.waa.PropertyManagment.repository.OfferRepository;
+import com.waa.PropertyManagment.repository.PropertyRepository;
+import com.waa.PropertyManagment.repository.SavedListRepository;
+import com.waa.PropertyManagment.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 

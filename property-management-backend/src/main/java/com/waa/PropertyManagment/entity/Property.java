@@ -1,4 +1,4 @@
-package com.waa.PropertyManagment.Entity;
+package com.waa.PropertyManagment.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

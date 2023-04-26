@@ -1,6 +1,6 @@
-package com.waa.PropertyManagment.Controller;
+package com.waa.PropertyManagment.controller;
 
-import com.waa.PropertyManagment.Service.MessageService;
+import com.waa.PropertyManagment.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
