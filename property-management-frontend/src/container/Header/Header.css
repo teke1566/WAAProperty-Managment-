@@ -1,0 +1,6 @@
+.header {
+    border: 1px solid black;
+    position: sticky;
+    top: 0;
+    background-color: aliceblue;
+}
