@@ -19,7 +19,8 @@ const styles = {
   pagination: {
     display: "flex",
     justifyContent: "center",
-    marginTop: 2,
+    marginTop: 20,
+    marginBottom: 20
   },
   price: {},
 };

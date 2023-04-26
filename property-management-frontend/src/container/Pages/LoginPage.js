@@ -9,7 +9,7 @@ const LoginPage = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,14 +28,28 @@ const LoginPage = () => {
     }
     setPasswordError("");
 
-    setUser({
+    if (email === "admin@gmail.com") {
+      setUser({
         isAuthenticated: true,
         username: "username",
-        role: "admin"
-    })
+        role: "admin",
+      });
+    } else if(email === "owner@gmail.com") {
+      setUser({
+        isAuthenticated: true,
+        username: "username",
+        role: "owner",
+      });
+    } else if(email === "customer@gmail.com") {
+      setUser({
+        isAuthenticated: true,
+        username: "username",
+        role: "customer",
+      });
+    }
 
-    if(location.state) navigate('/properties/' + location.state.propertyId);
-    else navigate('/');
+    if (location.state) navigate("/properties/" + location.state.propertyId);
+    else navigate("/");
   };
 
   return (
@@ -71,14 +85,14 @@ const LoginPage = () => {
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          error={passwordError  !== ""}
+          error={passwordError !== ""}
           helperText={passwordError}
         />
         <Button type="submit" fullWidth variant="contained" color="primary">
           Sign In
         </Button>
         <Grid container gridRow={1}>
-          <Grid item xs >
+          <Grid item xs>
             <Link to={"/forgot-password"}>Forgot Password?</Link>
           </Grid>
           <Grid item xs>

@@ -182,6 +182,7 @@ function CustomerDashboard(props) {
         {/* <Typography>Page: {page}</Typography> */}
         <Pagination count={10} page={page} onChange={handleChangePage} />
       </div>
+      <br/>
     </div>
   );
 }
