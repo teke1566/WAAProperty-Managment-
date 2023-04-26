@@ -1,20 +1,33 @@
 package com.waa.PropertyManagment.service.impl;
 
+import com.waa.PropertyManagment.entity.Role;
+import com.waa.PropertyManagment.entity.User;
 import com.waa.PropertyManagment.entity.dto.request.LoginRequest;
 import com.waa.PropertyManagment.entity.dto.request.RefreshTokenRequest;
+import com.waa.PropertyManagment.entity.dto.request.RegisterRequest;
 import com.waa.PropertyManagment.entity.dto.response.LoginResponse;
+import com.waa.PropertyManagment.enums.Roles;
+import com.waa.PropertyManagment.repo.RoleRepo;
+import com.waa.PropertyManagment.repo.UserRepo;
 import com.waa.PropertyManagment.service.AuthService;
 import com.waa.PropertyManagment.util.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +38,10 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final JwtUtil jwtUtil;
+    private final UserRepo userRepo;
+    private final RoleRepo roleRepo;
+    private final ModelMapper modelMapper;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
@@ -63,4 +80,21 @@ public class AuthServiceImpl implements AuthService {
         }
         return new LoginResponse();
     }
+    @Override
+    public void register(RegisterRequest registerRequest) {
+        try {
+            User user = modelMapper.map(registerRequest, User.class);
+            user.setName(Optional.ofNullable(registerRequest.getName()).orElse("Default Name"));
+            Roles roleValue = registerRequest.getIsOwner() ? Roles.OWNER : Roles.CUSTOMER;
+            Role role = roleRepo.findByRole(roleValue);
+            user.setRoles(Collections.singletonList(role));
+            user.setPassword(bCryptPasswordEncoder.encode(registerRequest.getPassword()));
+            //user.setActive(false);
+
+            userRepo.save(user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
