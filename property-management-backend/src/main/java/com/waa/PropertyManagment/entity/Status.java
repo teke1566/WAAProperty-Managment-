@@ -1,4 +1,4 @@
-package com.waa.PropertyManagment.domain;
+package com.waa.PropertyManagment.entity;
 
 public enum Status {
     AVAILABLE, PENDING, CONTINGENT;

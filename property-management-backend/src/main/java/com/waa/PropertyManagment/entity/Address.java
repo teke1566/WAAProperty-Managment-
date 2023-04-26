@@ -1,15 +1,22 @@
-package com.waa.PropertyManagment.domain;
+package com.waa.PropertyManagment.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Data
+
 public class Address {
+
+
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
@@ -20,4 +27,7 @@ public class Address {
     private  String zipCode;
     @OneToOne(mappedBy = "address")
     private  Property property;
+
+
+
 }

@@ -1,20 +1,26 @@
-package com.waa.PropertyManagment.domain;
+package com.waa.PropertyManagment.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
 
 @Entity
+
+@ToString
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Property {
+public class Property  {
+
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,11 +29,11 @@ public class Property {
     private String propertyType;
     private String description;
     private int numberOfRooms;
-
+// we use @JsonBackReference to solve the null exeption when returing on postman
     private Double rentAmount;
 
     private Double securityDepositAmount;
-    private int numberOfBathRooms;
+    private Integer numberOfBathRooms;
     private String imageUrl;
 
     private double price;
@@ -37,6 +43,7 @@ public class Property {
     private Status status;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_address")
+    @JsonBackReference
     private Address address;
 //    @ManyToOne
 //    @JoinColumn(name = "owner_id")

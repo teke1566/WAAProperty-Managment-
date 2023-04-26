@@ -1,4 +1,4 @@
-package com.waa.PropertyManagment.dto;
+package com.waa.PropertyManagment.entity.dto;
 
 import lombok.Data;
 
