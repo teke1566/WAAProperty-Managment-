@@ -1,4 +1,4 @@
-package com.waa.PropertyManagment.Config;
+package com.waa.PropertyManagment.config;
 
 
 import org.springframework.context.annotation.Bean;
