@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/Properties")
+@RequestMapping("/api/v1/properties")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PropertyController {
     @Autowired
@@ -24,7 +24,7 @@ public class PropertyController {
 
     @ResponseStatus(HttpStatus.CREATED)
 
-    @PostMapping
+    @PostMapping("/owner")
     public void PostProperty(@RequestBody Property property) {
         propertyService.post(property);
     }
@@ -34,28 +34,28 @@ public class PropertyController {
         return propertyService.getPropertyById(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/owner/{id}")
     public Property updateProperty(@RequestBody Property property, @PathVariable Long id) {
         return propertyService.updateProperty(property, id);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/owner/{id}")
     public void deleteProperty(@PathVariable Long id) {
         propertyService.deleteProperty(id);
     }
 
-    @PutMapping("/{id}/pend")
+    @PutMapping("/owner/{id}/pend")
     public Property UpdateToPending(@PathVariable Long id) {
         return propertyService.updateToPending(id);
     }
 
-    @PutMapping("/{id}/availabe")
+    @PutMapping("/owner/{id}/availabe")
     public void UpdateToAvailable(@PathVariable Long id) {
         propertyService.updateToAvailable(id);
     }
 
-    @PutMapping("/{id}/contigent")
+    @PutMapping("/owner/{id}/contigent")
     public void UpdateToCONTINGENT(@PathVariable Long id) {
         propertyService.updateToCONTINGENT(id);
     }
@@ -76,7 +76,7 @@ public class PropertyController {
         return propertyService.findByAllCriteria(propertyType, city, status, price, numberOfRooms);
     }
 
-    @PutMapping("/{id}/cancelContingency")
+    @PutMapping("/owner/{id}/cancelContingency")
     public void cancelContingency(@PathVariable Long id) {
         propertyService.cancelContingency(id);
     }
