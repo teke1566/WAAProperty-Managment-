@@ -7,14 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SavedListRepository extends JpaRepository<SavedList, Long> {
 
-   // List<SavedList> findByUserId(Long userId);
+List<SavedList> findByCustomerId(Long customerId);
 
-    // SavedList findByCustomerAndProperty(User customer, Property property);
-
-    //List<SavedList> findByCustomer(User customer);
-    //used to specifically find and remove property from savedList.
+Optional<SavedList> findByCustomerIdAndPropertiesId(Long customerId, Long propertyId);
 }

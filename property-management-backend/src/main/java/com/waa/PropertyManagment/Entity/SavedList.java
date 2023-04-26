@@ -13,12 +13,12 @@ public class SavedList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User customer;
     private String name;
 
-    @ManyToMany
-    @JoinTable
-    private List<Property> properties;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "property_id")
+    private Property properties;
 }

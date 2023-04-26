@@ -17,4 +17,26 @@ public class PropertyService {
     public List<Property> getAllProperties(){
         return propertyRepository.findAll();
     }
+
+
+    public List<Property> filterPropertiesByPrice(Double minPrice, Double maxPrice) {
+        return propertyRepository.findByPriceBetween(minPrice, maxPrice);
+    }
+
+    public List<Property> filterPropertiesByType(String propertyType) {
+        return propertyRepository.findByPropertyType(propertyType);
+    }
+
+    public List<Property> filterPropertiesByNumberOfRooms(int numberOfRooms) {
+        return propertyRepository.findByNumRooms(numberOfRooms);
+    }
+
+    public List<Property> filterPropertiesByHomeType(String homeType) {
+        return propertyRepository.findByHomeType(homeType);
+    }
+
+    public List<Property> filterPropertiesByLocation(String location) {
+        return propertyRepository.findByLocationContainingIgnoreCase(location);
+    }
+
 }

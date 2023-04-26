@@ -15,14 +15,15 @@ public class Message {
 //    @ManyToOne
 //    private User sender;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_id", referencedColumnName = "id")
     private User sender;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipient_id", referencedColumnName = "id")
     private User recipient;
 
     private String content;
+    private String subject;
 
 }
