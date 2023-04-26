@@ -44,7 +44,7 @@ public class SecurityConfig {
         http
                 .csrf().disable().cors().and()
                 .authorizeHttpRequests()
-                .requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
+
                 .requestMatchers("/api/v1/authenticate/**").permitAll()
 
                 .requestMatchers(HttpMethod.GET,"/api/v1/users").hasAuthority(Roles.ADMIN.name())
