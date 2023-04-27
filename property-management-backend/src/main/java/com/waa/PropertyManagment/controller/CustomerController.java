@@ -46,10 +46,6 @@ public class CustomerController {
     }
 
     //http://localhost:8080/api/v1/customer/
-    @GetMapping("/")
-    public List<User> getAllCustomer(){
-        return customerService.getAllCustomers();
-    }
 
 
     //http://localhost:8080/api/v1/customer/offer-history/1

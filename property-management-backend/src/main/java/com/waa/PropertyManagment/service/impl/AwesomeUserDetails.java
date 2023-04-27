@@ -21,7 +21,7 @@ public class AwesomeUserDetails implements UserDetails {
     public AwesomeUserDetails(User user) {
         this.email = user.getEmail();
         this.password = user.getPassword();
-        this.roles = user.getRoles();
+        this.roles = user.getRole();
     }
 
     @Override

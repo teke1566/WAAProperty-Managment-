@@ -13,7 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "users")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -25,13 +24,9 @@ public class User {
     @Column(nullable = false)
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Role> roles;
+    private List<Role> role;
 
 
-
-
-
-    private String role;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     List<Offer> offers;
 
