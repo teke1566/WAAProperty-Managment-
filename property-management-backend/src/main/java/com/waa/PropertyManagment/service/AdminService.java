@@ -22,8 +22,6 @@ public interface AdminService {
 
     void saveUser(User user);
 
-//    Void updateUser(long id, User user);
-
     void activateUser(long id);
 
     void blockUser(long id);
@@ -33,10 +31,6 @@ public interface AdminService {
     List<Property> getAllProperty();
 
     Property getPropertyById(long id);
-
-//    Void activateProperty(long id);
-//
-//    Void blockProperty(long id);
 
     void deleteProperty(long id);
 

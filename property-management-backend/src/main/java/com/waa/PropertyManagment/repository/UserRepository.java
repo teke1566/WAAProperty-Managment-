@@ -15,7 +15,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
     User findByEmail(String email);
 
     @Query("SELECT u FROM User u WHERE u.role = :role")
-    List<User> findUserByRole(String role);
+    List<User> findUserByRole(Enum role);
 
     @Modifying
     @Query("UPDATE User u SET u.isactive = :value WHERE u.id = :id")
@@ -24,5 +24,4 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Modifying
     @Query("UPDATE User u SET u.password = :value WHERE u.id = :id")
     void resetPassword(long id, String value);
-
 }
