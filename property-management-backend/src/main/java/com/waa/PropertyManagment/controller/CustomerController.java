@@ -1,10 +1,7 @@
 package com.waa.PropertyManagment.controller;
 
 import com.itextpdf.text.DocumentException;
-import com.waa.PropertyManagment.entity.Offer;
-import com.waa.PropertyManagment.entity.Property;
-import com.waa.PropertyManagment.entity.SavedList;
-import com.waa.PropertyManagment.entity.User;
+import com.waa.PropertyManagment.entity.*;
 import com.waa.PropertyManagment.service.*;
 
 import org.springframework.http.HttpHeaders;
@@ -41,24 +38,28 @@ public class CustomerController {
         this.propertyService=propertyService;
     }
 
+    //http://localhost:8080/api/v1/customer/
     @GetMapping("/")
     public List<User> getAllCustomer(){
         return customerService.getAllCustomers();
     }
 
-    @GetMapping("/{customerId}/offer-history")
+    //http://localhost:8080/api/v1/customer/offer-history/1
+    @GetMapping("/offer-history/{customerId}")
     public List<Offer> getOfferHistoryByCustomerId(@PathVariable Long customerId) {
         return offerService.findByCustomerId(customerId);
     }
+
+    //http://localhost:8080/api/v1/customer/5/active-offers
 
     @GetMapping("/{customerId}/active-offers")
     public List<Offer> getActiveOffersByCustomerId(@PathVariable Long customerId){
         return  offerService.findActiveOffersByCustomerId(customerId);
     }
 
-    //http://localhost:7070/api/v1/customer/6/offers/5/cancel
-    @PostMapping("/{customerId}/offers/{offerId}/cancel")
-    public ResponseEntity<String> cancelOffer(@PathVariable Long customerId, @PathVariable Long offerId){
+    //http://localhost:7070/api/v1/customer/offers/5/cancel
+    @PostMapping("/offers/{offerId}/cancel")
+    public ResponseEntity<String> cancelOffer(@PathVariable Long offerId){
         if(offerService.canCancelOffer(offerId)){
             offerService.cancelOffer(offerId);
             return ResponseEntity.ok("Offer canceled successfully");
@@ -67,10 +68,10 @@ public class CustomerController {
             return new ResponseEntity<>("Cannot cancel offer after contingency.", HttpStatus.BAD_REQUEST);
         }
     }
+    //http://localhost:8080/api/v1/customer/offers/2/receipt
+    @GetMapping("/offers/{offerId}/receipt")
 
-    @GetMapping("/{customerId}/offers/{offerId}/receipt")
-
-    public ResponseEntity<byte[]> generateReceipt(@PathVariable Long customerId, @PathVariable Long offerId){
+    public ResponseEntity<byte[]> generateReceipt(@PathVariable Long offerId){
         try {
             ByteArrayInputStream bis= offerService.generateReceipt(offerId);
             HttpHeaders headers= new HttpHeaders();
@@ -86,51 +87,71 @@ public class CustomerController {
         }
     }
 
-    /*@PostMapping("/{customerId}/properties/{propertyId}/offers")
+    //http://localhost:8080/api/v1/customer/place-offer?propertyId=1&userId=5&amount=100000
+    @PostMapping("/place-offer")
+    public ResponseEntity<Offer> placeOffer(
+            @RequestParam Long propertyId,
+            @RequestParam Long userId,
+            @RequestParam Double amount) {
+        Offer offer = customerService.placeOffer(propertyId, userId, amount);
+        if (offer == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(offer, HttpStatus.CREATED);
+    }
 
-    public ResponseEntity<Object> placeOffer(@PathVariable Long customerId,
-                                             @PathVariable Long propertyId,
-                                             @RequestParam Double amount){
-        customerService.placeOffer(customerId,propertyId,amount);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }*/
 
-    /*To make the placeOffer program accept the amount
-    parameter as a URL path variable instead of a request parameter
-    , you can modify the @PostMapping annotation as follows
+
+    /*
+    * {
+    "id":8,
+    "sender":{
+        "id":4
+    },
+    "recipient":{
+      "id":5
+    },
+    "content":"message content",
+    "subject":"my_subject"
+}
     * */
-    @PostMapping("/{customerId}/properties/{propertyId}/offers/{offerId}/{amount}")
-    public ResponseEntity<Object> placeOffer(@PathVariable Long customerId,
-                                             @PathVariable Long propertyId,
-                                             @PathVariable Long offerId,
-                                             @PathVariable Double amount){
-        customerService.placeOffer(customerId, propertyId,offerId,amount);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+
+
+    @PostMapping("/messages")
+    public ResponseEntity<Message> sendMessage(@RequestBody Message message) {
+        Message savedMessage = messageService.saveMessage(message);
+        return new ResponseEntity<>(savedMessage, HttpStatus.CREATED);
     }
 
-
-    @PostMapping("/{customerId}/messages")
-    public ResponseEntity<Object> sendMessage(@PathVariable Long customerId,
-                                              @RequestParam Long recipientId,
-                                              @RequestParam String subject,
-                                              @RequestParam String content){
-        messageService.sendMessage(customerId,recipientId,content,subject);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    /*
+    * //ADD to savedlist
+    * @PutMapping("/{savedListId}/properties/{propertyId}")
+    public ResponseEntity<SavedList> addPropertyToSavedList(@PathVariable Long savedListId, @PathVariable Long propertyId) {
+        SavedList savedList = savedListService.addPropertyToSavedList(savedListId, propertyId);
+        if (savedList == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(savedList, HttpStatus.OK);
     }
+    * */
 
-    @PostMapping("/{customerId}/saved-properties")
+
+
+    //http://localhost:8080/api/v1/customer/favorites/2?propertyId=1&name="My Fav"
+
+    @PostMapping("/add-favorites/{customerId}")
     public ResponseEntity<Object> addSavedProperty(@PathVariable Long customerId,
                                                    @RequestParam Long propertyId,
                                                    @RequestParam String name){
         savedListService.addSavedProperty(customerId,propertyId,name);
       return new ResponseEntity<>(HttpStatus.CREATED);
     }
-    @GetMapping("/{customerId}/saved-properties")
+    @GetMapping("get-favorites/{customerId}")
     public List<SavedList> getSavedProperties(@PathVariable Long customerId){
         return savedListService.getSavedProperties(customerId);
     }
 
-    @DeleteMapping("/saved-properties/{savedPropertyId}")
+    @DeleteMapping("/remove-favorites/{savedPropertyId}")
     public ResponseEntity<Object> removeSavedProperty(@PathVariable Long savedPropertyId){
         savedListService.removeSavedProperty(savedPropertyId);
         return new ResponseEntity<>(HttpStatus.OK);

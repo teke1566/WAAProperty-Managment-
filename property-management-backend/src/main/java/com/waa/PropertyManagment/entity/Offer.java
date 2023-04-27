@@ -1,5 +1,6 @@
 package com.waa.PropertyManagment.entity;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,11 +20,13 @@ public class Offer {
     //One property can have many offers associated with it
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "property_id")
+    @JsonIgnore
     private Property property;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonIgnore
     User user;
     private String status;
     private Double amount;

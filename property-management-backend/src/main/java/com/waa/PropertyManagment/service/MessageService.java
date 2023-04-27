@@ -1,10 +1,16 @@
 package com.waa.PropertyManagment.service;
 
 import com.waa.PropertyManagment.entity.Message;
+import com.waa.PropertyManagment.entity.Property;
 import com.waa.PropertyManagment.entity.User;
 import com.waa.PropertyManagment.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import com.waa.PropertyManagment.repository.MessageRepository;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MessageService {
@@ -24,15 +30,32 @@ public class MessageService {
     in the database using a MessageRepository.
 * */
 
-    public void sendMessage(Long senderId, Long recipientId, String content, String subject){
-        User sender =userRepository.findById(senderId).get();
-        User recipient =userRepository.findById(recipientId).get();
-        Message message= new Message();
-        message.setSender(sender);
-        message.setRecipient(recipient);
-        message.setContent(content);
-        message.setSubject(subject);
+    /*public void sendMessage(Long senderId, Message message){
+
+
+
+        Optional<User> senderCondition =userRepository.findById(senderId);
+        Optional<User> recipientCondition= userRepository.findById(message.getRecipient().getId());
+        User sender=senderCondition.get();
+        User recipient= recipientCondition.get();
+        if (senderCondition.isPresent()&&recipientCondition.isPresent()){
+        sender.setSentMessages(Collections.singletonList(message));
         messageRepository.save(message);
+
+        } else if (senderCondition.isPresent()) {
+            Message message1= new Message();
+            message1.setSender(sender);
+            message1.setRecipient(recipient);
+            message1.setContent(message.getContent());
+            message1.setSubject(message.getSubject());
+            messageRepository.save(message);
+        } else {
+            System.out.println("No such user exist...");
+        }
+
+    }*/
+    public Message saveMessage(Message message) {
+        return messageRepository.save(message);
     }
 }
 

@@ -45,9 +45,7 @@ public class OfferService {
             Offer offer=offerOptional.get();
             Property property= propertyRepository.findById(offer.getProperty().getId()).orElse(null);
             System.out.println("Property Name: "+property.getName());
-            if(property!=null){
-                return !property.getStatus().equalsIgnoreCase("contingency");
-            }
+            return !offer.getStatus().equalsIgnoreCase("contingent");
         }
         return  false;
     }
@@ -59,7 +57,7 @@ public class OfferService {
             Property property=propertyRepository.findById(offer.getProperty().getId()).orElse(null);
 
             if(property!=null){
-                property.setStatus("CANCELED");
+                property.setStatus("Available");
                 propertyRepository.save(property);
             }
         }

@@ -25,17 +25,17 @@ public class CustomerService {
     private final UserRepository userRepository;
     private final EmailService emailService;
 
-    public CustomerService(OfferRepository offerRepository, SavedListRepository savedListRepository, PropertyRepository propertyRepository, UserRepository userRepository, EmailService emailService){
-        this.offerRepository=offerRepository;
-        this.savedListRepository=savedListRepository;
-        this.propertyRepository=propertyRepository;
-        this.userRepository=userRepository;
+    public CustomerService(OfferRepository offerRepository, SavedListRepository savedListRepository, PropertyRepository propertyRepository, UserRepository userRepository, EmailService emailService) {
+        this.offerRepository = offerRepository;
+        this.savedListRepository = savedListRepository;
+        this.propertyRepository = propertyRepository;
+        this.userRepository = userRepository;
         this.emailService = emailService;
     }
 
- public List<User> getAllCustomers(){
-       return userRepository.findAllCustomers();
- }
+    public List<User> getAllCustomers() {
+        return userRepository.findAllCustomers();
+    }
 
 
  /*
@@ -46,49 +46,32 @@ When a customer places an offer, update the
 *  You can implement this logic in the CustomerService.
  * */
 
-    public void placeOffer(Long customerId, Long propertyId,Long offerId, Double amount){
-        Property property = propertyRepository.findById(propertyId).get();
-        User user = userRepository.findById(customerId).get();
-        Optional<User> userCondition=userRepository.findById(customerId);
-
-        Optional<Offer> offerCondition = offerRepository.findById(offerId);
-        if (property.getStatus().equals("AVAILABLE")&&(userCondition.isPresent())) {
-            // Create a new offer for the property and customer
-
-            Offer offer = new Offer();
-            offer.setUser(user);
-            offer.setProperty(property);
-            offer.setAmount(amount);
-            offer.setStatus("Pending");
-            Offer savedOffer=offerRepository.save(offer);
-
-            //Email
-
-            String ownerEmail = savedOffer.getProperty().getUsers_id().getEmail();
-            String subject = "New offer on your property";
-            String message = "You have received a new offer of " + amount + " on your property at " +
-                    savedOffer.getProperty().getLocation();
-            emailService.sendEmail(ownerEmail, subject, message);
-
-
-
-
-            // Update the property status to 'pending' if the offer is accepted
-            //for now it only check if the offered amount is greater than or equal to
-            //the property price
-
-            if (amount >= property.getPrice()) {
-                property.setStatus("pending");
-                offer.setStatus("Accepted");
-                propertyRepository.save(property);
-                offerRepository.save(offer);
-            }
-        }
-        else {
-            System.out.println("Cannot place order on non available property");
-            throw  new IllegalStateException("Cannot place an offer on a non-available property");
+    public Offer placeOffer(Long propertyId, Long userId, Double amount) {
+        Property property = propertyRepository.findById(propertyId).orElse(null);
+        if (property == null) {
+            return null;
         }
 
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) {
+            return null;
+        }
+
+        Offer offer = new Offer();
+        offer.setProperty(property);
+        offer.setUser(user);
+        offer.setAmount(amount);
+        offer.setStatus("pending");
+
+        Offer savedOffer = offerRepository.save(offer);
+
+        if (savedOffer != null) {
+            property.setStatus("pending");
+            propertyRepository.save(property);
+        }
+
+        return savedOffer;
     }
-
 }
+
+
