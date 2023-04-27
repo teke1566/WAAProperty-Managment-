@@ -18,6 +18,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class OfferService {
@@ -33,6 +34,11 @@ public class OfferService {
     }
     public List<Offer> findActiveOffersByCustomerId(Long customerId){
        return  offerRepository.findActiveOffersByCustomerId(customerId);
+    }
+    public List<Offer> findActiveOffer(){
+        List<Offer>offers= offerRepository.findAll();
+        Stream<Offer> offerOptional=offers.stream().filter((offer -> offer.getStatus().equals("Pending")));
+        return (List<Offer>) offerOptional;
     }
 
     /*c.	Cannot cancel offer after 'contingency':
