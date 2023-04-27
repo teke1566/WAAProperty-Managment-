@@ -1,21 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
-    Dialog,
-    DialogTitle,
-    DialogActions,
-    DialogContent,
-    Button,
-    TextField,
-    Grid,
-  } from "@mui/material";
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  Button,
+  TextField,
+  Grid,
+  MenuItem,
+} from "@mui/material";
 
 const AddPropertyDialog = (props) => {
-  const [property, setProperty] = useState(null);
+  const { property } = props;
+
   const [formData, setFormData] = useState({
-    address: '',
-    price: '',
-    bedrooms: '',
-    bathrooms: '',
+    address: property?.address || "",
+    price: property?.price || "",
+    bedrooms: property?.bedrooms || "",
+    bathrooms: property?.bathrooms || "",
+    listType: property?.listType || "",
+    propertyType: property?.type || "",
+    imageUrl: property?.image || "",
   });
 
   const propertyTypes = [
@@ -24,34 +29,27 @@ const AddPropertyDialog = (props) => {
     { value: "house", label: "House" },
     { value: "condo", label: "Condo" },
   ];
-  
+
   const homeTypes = [
     { value: "", label: "None" },
     { value: "single-family", label: "Single Family" },
     { value: "multi-family", label: "Multi Family" },
     { value: "townhouse", label: "Townhouse" },
   ];
-  
+
   const listTypes = [
-      { value: "", label: "None" },
-      { value: "sale", label: "For Sale" },
-      { value: "rent", label: "For Rent" },
+    { value: "", label: "None" },
+    { value: "sale", label: "For Sale" },
+    { value: "rent", label: "For Rent" },
+    { value: "sold", label: "Sold" },
   ];
-  
+
   const bedrooms = [
-      { value: "", label: "None" },
-      { value: "1", label: "1 beds" },
-      { value: "2", label: "2 beds" },
-      { value: "3", label: "3 beds" },
-      { value: "4", label: "4 beds" },
-  ];
-  
-  const bathrooms = [
-      { value: "", label: "None" },
-      { value: "1", label: "1 baths" },
-      { value: "2", label: "2 baths" },
-      { value: "3", label: "3 baths" },
-      { value: "4", label: "4 baths" },
+    { value: "", label: "None" },
+    { value: "1", label: "1 beds" },
+    { value: "2", label: "2 beds" },
+    { value: "3", label: "3 beds" },
+    { value: "4", label: "4 beds" },
   ];
 
   const handleChange = (event) => {
@@ -65,76 +63,132 @@ const AddPropertyDialog = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(formData);
-    setFormData({
-      address: '',
-      price: '',
-      bedrooms: '',
-      bathrooms: '',
-    });
+    // setFormData({
+    //   address: "",
+    //   price: "",
+    //   bedrooms: "",
+    //   bathrooms: "",
+    // });
   };
 
   return (
     <Dialog open={props.open} onClose={props.toggle}>
-        <DialogTitle>New Property</DialogTitle>
-        <DialogContent>
+      <DialogTitle>{property ? "Edit" : "New Property"}</DialogTitle>
+      <DialogContent>
         <form onSubmit={handleSubmit}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <TextField
-            name="address"
-            label="Address"
-            variant="outlined"
-            fullWidth
-            value={formData.address}
-            onChange={handleChange}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            name="price"
-            label="Price"
-            variant="outlined"
-            fullWidth
-            value={formData.price}
-            onChange={handleChange}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            name="bedrooms"
-            label="Bedrooms"
-            variant="outlined"
-            fullWidth
-            value={formData.bedrooms}
-            onChange={handleChange}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            name="bathrooms"
-            label="Bathrooms"
-            variant="outlined"
-            fullWidth
-            value={formData.bathrooms}
-            onChange={handleChange}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          
-        </Grid>
-      </Grid>
-    </form>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={props.toggle} color="primary">
-            Cancel
-          </Button>
-          <Button type="submit" variant="contained" color="primary">
-            Add Property
-          </Button>
-        </DialogActions>
-      </Dialog>
-  )
-}
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                name="address"
+                label="Address"
+                variant="outlined"
+                fullWidth
+                value={formData.address}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                name="imageUrl"
+                label="Property Image"
+                variant="outlined"
+                fullWidth
+                value={formData.imageUrl}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                name="price"
+                label="Price"
+                variant="outlined"
+                fullWidth
+                value={formData.price}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="List Type"
+                variant="outlined"
+                name="listType"
+                fullWidth
+                select
+                value={formData.listType}
+                onChange={handleChange}
+              >
+                {listTypes.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Property Type"
+                variant="outlined"
+                name="propertyType"
+                fullWidth
+                select
+                value={formData.propertyType}
+                onChange={handleChange}
+              >
+                {propertyTypes.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                name="bedrooms"
+                label="Bedrooms"
+                variant="outlined"
+                fullWidth
+                select
+                value={formData.bedrooms}
+                onChange={handleChange}
+              >
+                {bedrooms.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                name="bathrooms"
+                label="Bathrooms"
+                variant="outlined"
+                fullWidth
+                select
+                value={formData.bathrooms}
+                onChange={handleChange}
+              >
+                {bedrooms.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            
+          </Grid>
+        </form>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={props.toggle} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={handleSubmit} variant="contained" color="primary">
+          {property ? "Save" : "Add Property"}
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
-export default AddPropertyDialog
+export default AddPropertyDialog;

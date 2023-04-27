@@ -10,6 +10,7 @@ function App() {
     isAuthenticated: false,
     username: null,
     role: "viewer",
+    id: null,
   });
 
   return (

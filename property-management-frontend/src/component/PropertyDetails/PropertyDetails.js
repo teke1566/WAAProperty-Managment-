@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState,useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import {
   Typography,
@@ -20,34 +20,30 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import InquiryDialog from "./InquiryDialog";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import CheckIcon from '@mui/icons-material/Check';
+import AddPropertyDialog from "./AddPropertyDialog";
+import DeleteDialog from "./DeleteDialog";
+import axiosInstance from "../../api/axiosInstance";
 
 const PropertyDetails = () => {
   const [openOfferDiaglog, setOpenOffer] = useState(false);
   const [openFavorites, setOpenFav] = useState(false);
   const [openInquiry, setOpenInquiry] = useState(false);
+  const [openEditDialog, setOpenEdit] = useState(false);
+  const [openDeleteDialog, setOpenDelete] = useState(false);
+  const [property, setProperty] = useState({});
+
+  const params = useParams();
+
+  useEffect(() => {
+    axiosInstance.get("properties/" + params.id)
+    .then(response => setProperty(response.data))
+    .catch(error => console.error(error));
+    console.log(property);
+  }, [params.id]);
 
   const { user } = useContext(UserContext);
 
-  const params = useParams();
   const navigate = useNavigate();
-
-  const property = {
-    id: 1,
-    title: "Spacious 2BR Apartment in Downtown",
-    description:
-      "This beautiful 2BR apartment is located in the heart of downtown, within walking distance of shops, restaurants, and public transportation. It features high ceilings, large windows, and plenty of natural light.",
-    price: 1500,
-    bedrooms: 2,
-    bathrooms: 1,
-    size: 1000,
-    image:
-      "https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    type: "house",
-    listType: "sale",
-    status: "available",
-    address: "50 Riverside Blvd APT 4E, New York, NY 10069",
-  };
 
   const checkUser = () => {
     if (!user.isAuthenticated) {
@@ -70,13 +66,25 @@ const PropertyDetails = () => {
     setOpenInquiry(!openInquiry);
   };
 
+  const handleEditDialog = () => {
+    setOpenEdit(!openEditDialog);
+  }
+
+  const handleDeleteDialog = () => {
+    setOpenDelete(!openDeleteDialog);
+  }
+
+  const handleDelete = () => {
+    console.log("delete " + params.id);
+  }
+
   return (
     <div>
       <Card className="propertyDetails">
         <CardMedia
           component="img"
-          image={property.image}
-          alt={property.title}
+          image={property.imageUrl}
+          alt={property.propertyName}
           className="propertyImage"
         />
         <CardContent className="propertyContent">
@@ -115,19 +123,19 @@ const PropertyDetails = () => {
             {property.price}$
           </Typography>
           <Typography>
-            <strong>{property.bedrooms}</strong> bed{" "}
-            <strong>{property.bathrooms}</strong> bath{" "}
+            <strong>{property.numberOfRooms}</strong> bed{" "}
+            <strong>{property.numberOfBathRooms}</strong> bath{" "}
             <strong>{property.size}</strong> sqft
           </Typography>
           <Typography>
-            <strong>{property.type}</strong> for{" "}
+            <strong>{property.propertyType}</strong> for{" "}
             <strong>{property.listType}</strong>
           </Typography>
-          <Typography fontSize={15}>{property.address}</Typography>
+          <Typography fontSize={15}>{property.address?.street}, {property.address?.city}, {property.address?.state} {property.address?.zipcode}</Typography>
           {user.role === "owner" ? (
             <>
               <Button
-                onClick={handleOffer}
+                onClick={handleEditDialog}
                 variant="contained"
                 endIcon={<EditIcon />}
                 style={{ margin: 4 }}
@@ -135,9 +143,9 @@ const PropertyDetails = () => {
               >
                 Edit
               </Button>
-              <OfferDialog open={openOfferDiaglog} toggle={handleOffer} />
+              <AddPropertyDialog open={openEditDialog} toggle={handleEditDialog} property={property}/>
               <Button
-                onClick={handleFavouriteList}
+                onClick={handleDeleteDialog}
                 variant="contained"
                 endIcon={<DeleteIcon />}
                 style={{ marginRight: 4 }}
@@ -145,9 +153,10 @@ const PropertyDetails = () => {
               >
                 Delete
               </Button>
-              <FavouriteDialog
-                open={openFavorites}
-                toggle={handleFavouriteList}
+              <DeleteDialog
+                open={openDeleteDialog}
+                toggle={handleDeleteDialog}
+                handleDelete={handleDelete}
               />
               {/* <Button
                 onClick={handleInquiry}

@@ -31,7 +31,7 @@ const OffersTable = ({ offers }) => {
           {offers.map((offer) => (
             <TableRow key={offer.id}>
               <TableCell>
-                <img src={offer.property.image} alt="property" height="50" />
+                <img src={offer.property.imageUrl} alt="property" height="50" />
               </TableCell>
               <TableCell align="center">{offer.property.title}</TableCell>
               <TableCell align="center">{offer.value}</TableCell>

@@ -37,8 +37,8 @@ const PropertyList = (props) => {
                 <CardMedia
                   component="img"
                   height="194"
-                  image={property.image}
-                  alt={property.title}
+                  image={property.imageUrl}
+                  alt={property.propertyName}
                 />
                 <CardContent style={styles.cardContent}>
                   <div className="statusWrap">
@@ -76,15 +76,15 @@ const PropertyList = (props) => {
                     {property.price}$
                   </Typography>
                   <Typography>
-                    <strong>{property.bedrooms}</strong> bed{" "}
-                    <strong>{property.bathrooms}</strong> bath{" "}
+                    <strong>{property.numberOfRooms}</strong> bed{" "}
+                    <strong>{property.numberOfBathRooms}</strong> bath{" "}
                     <strong>{property.size}</strong> sqft
                   </Typography>
                   <Typography>
                     <strong>{property.type}</strong> for{" "}
                     <strong>{property.listType}</strong>
                   </Typography>
-                  <Typography fontSize={15}>{property.address}</Typography>
+                  <Typography fontSize={15}>{property.address.street}, {property.address.city}, {property.address.state} {property.address.zipcode}</Typography>
                 </CardContent>
               </Card>
             </Link>
