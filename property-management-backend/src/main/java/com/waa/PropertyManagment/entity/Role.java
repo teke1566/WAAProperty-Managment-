@@ -1,5 +1,4 @@
 package com.waa.PropertyManagment.entity;
-
 import com.waa.PropertyManagment.enums.Roles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,3 +20,4 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private Roles role;
 }
+
