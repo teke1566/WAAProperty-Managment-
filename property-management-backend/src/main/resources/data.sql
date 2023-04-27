@@ -22,4 +22,3 @@ INSERT INTO users_roles (user_id, roles_id)
 VALUES (2, 2);
 INSERT INTO users_roles (user_id, roles_id)
 VALUES (3, 3);
-

@@ -1,7 +1,6 @@
 package com.waa.PropertyManagment.controller;
 
 import com.waa.PropertyManagment.entity.dto.request.LoginRequest;
-import com.waa.PropertyManagment.entity.dto.request.RefreshTokenRequest;
 import com.waa.PropertyManagment.entity.dto.request.RegisterRequest;
 import com.waa.PropertyManagment.entity.dto.response.LoginResponse;
 import com.waa.PropertyManagment.service.AuthService;
@@ -38,9 +37,9 @@ public class AuthController {
     }
 
 
-    @PostMapping("/refreshToken")
-    public LoginResponse refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
-        return authService.refreshToken(refreshTokenRequest);
-    }
+//    @PostMapping("/refreshToken")
+//    public LoginResponse refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+//        return authService.refreshToken(refreshTokenRequest);
+//    }
 
 }

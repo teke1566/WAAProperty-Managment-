@@ -1,4 +1,4 @@
-package edu.miu.waa.project.backend.domain.dto.response;
+package com.waa.PropertyManagment.entity.dto.response;
 
 import lombok.Builder;
 import lombok.Data;

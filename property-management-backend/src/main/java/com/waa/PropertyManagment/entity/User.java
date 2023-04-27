@@ -28,7 +28,7 @@ public class User {
 //
 //    @OneToMany(mappedBy = "customer")
 //    private List<FavouriteProperty> favourites;
-
-
+//@Column(nullable = false)
+//private boolean active;
 
 }

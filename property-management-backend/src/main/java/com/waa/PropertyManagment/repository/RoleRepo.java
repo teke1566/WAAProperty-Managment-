@@ -1,4 +1,4 @@
-package com.waa.PropertyManagment.repo;
+package com.waa.PropertyManagment.repository;
 
 import com.waa.PropertyManagment.entity.Role;
 import com.waa.PropertyManagment.enums.Roles;

@@ -3,12 +3,11 @@ package com.waa.PropertyManagment.service.impl;
 import com.waa.PropertyManagment.entity.Role;
 import com.waa.PropertyManagment.entity.User;
 import com.waa.PropertyManagment.entity.dto.request.LoginRequest;
-import com.waa.PropertyManagment.entity.dto.request.RefreshTokenRequest;
 import com.waa.PropertyManagment.entity.dto.request.RegisterRequest;
 import com.waa.PropertyManagment.entity.dto.response.LoginResponse;
 import com.waa.PropertyManagment.enums.Roles;
-import com.waa.PropertyManagment.repo.RoleRepo;
-import com.waa.PropertyManagment.repo.UserRepo;
+import com.waa.PropertyManagment.repository.RoleRepo;
+import com.waa.PropertyManagment.repository.UserRepository;
 import com.waa.PropertyManagment.service.AuthService;
 import com.waa.PropertyManagment.util.JwtUtil;
 
@@ -24,9 +23,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -38,48 +35,27 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final JwtUtil jwtUtil;
-    private final UserRepo userRepo;
+    private final UserRepository userRepo;
     private final RoleRepo roleRepo;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
-        Authentication result = null;
         try {
-            result = authenticationManager.authenticate(
+            Authentication result = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
             );
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(result.getName());
+            final String accessToken = jwtUtil.generateToken(userDetails);
+            var loginResponse = new LoginResponse(accessToken);
+            return loginResponse;
         } catch (BadCredentialsException e) {
+            System.out.println("ISSUE" + e.getMessage());
             throw new BadCredentialsException(e.getMessage());
         }
-
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(result.getName());
-
-        final String accessToken = jwtUtil.generateToken(userDetails);
-        final String refreshToken = jwtUtil.generateRefreshToken(loginRequest.getEmail());
-        var loginResponse = new LoginResponse(accessToken, refreshToken);
-        return loginResponse;
     }
 
-    @Override
-    public LoginResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
-        boolean isRefreshTokenValid = jwtUtil.validateToken(refreshTokenRequest.getRefreshToken());
-        if (isRefreshTokenValid) {
-            // TODO (check the expiration of the accessToken when request sent, if the is recent according to
-            //  issue Date, then accept the renewal)
-            var isAccessTokenExpired = jwtUtil.isTokenExpired(refreshTokenRequest.getAccessToken());
-            if(isAccessTokenExpired)
-                System.out.println("ACCESS TOKEN IS EXPIRED"); // TODO Renew is this case
-            else
-                System.out.println("ACCESS TOKEN IS NOT EXPIRED");
-            final String accessToken = jwtUtil.doGenerateToken(  jwtUtil.getSubject(refreshTokenRequest.getRefreshToken()));
-            var loginResponse = new LoginResponse(accessToken, refreshTokenRequest.getRefreshToken());
-            // TODO (OPTIONAL) When to renew the refresh token?
-            return loginResponse;
-        }
-        return new LoginResponse();
-    }
     @Override
     public void register(RegisterRequest registerRequest) {
         try {
@@ -89,7 +65,7 @@ public class AuthServiceImpl implements AuthService {
             Role role = roleRepo.findByRole(roleValue);
             user.setRoles(Collections.singletonList(role));
             user.setPassword(bCryptPasswordEncoder.encode(registerRequest.getPassword()));
-            //user.setActive(false);
+           // user.setActive(false); // set the new user's status as inactive
 
             userRepo.save(user);
         } catch (Exception e) {
@@ -97,4 +73,7 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
+
+
 }
+
