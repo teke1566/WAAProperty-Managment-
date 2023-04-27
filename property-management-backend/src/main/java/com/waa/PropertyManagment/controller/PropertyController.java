@@ -1,8 +1,10 @@
 package com.waa.PropertyManagment.controller;
 
+import com.waa.PropertyManagment.entity.Offer;
 import com.waa.PropertyManagment.entity.Property;
 import com.waa.PropertyManagment.entity.dto.PropertyDto;
 import com.waa.PropertyManagment.service.PropertyService;
+import com.waa.PropertyManagment.service.impl.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,8 @@ import java.util.List;
 public class PropertyController {
     @Autowired
     private PropertyService propertyService;
+    @Autowired
+    private OfferService offerService;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
@@ -79,5 +83,10 @@ public class PropertyController {
     @PutMapping("/owner/{id}/cancelContingency")
     public void cancelContingency(@PathVariable Long id) {
         propertyService.cancelContingency(id);
+    }
+
+    @GetMapping("/active-offer")
+    public List<Offer> getActiveOffer(){
+        return offerService.findActiveOffer();
     }
 }
