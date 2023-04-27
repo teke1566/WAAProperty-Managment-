@@ -69,7 +69,7 @@ public class AuthServiceImpl implements AuthService {
             user.setName(Optional.ofNullable(registerRequest.getName()).orElse("Default Name"));
             Roles roleValue = registerRequest.getIsOwner() ? Roles.OWNER : Roles.CUSTOMER;
             Role role = roleRepo.findByRole(roleValue);
-            user.setRoles(Collections.singletonList(role));
+            user.setRole(Collections.singletonList(role));
             user.setPassword(bCryptPasswordEncoder.encode(registerRequest.getPassword()));
            // user.setActive(false); // set the new user's status as inactive
 

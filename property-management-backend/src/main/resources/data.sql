@@ -6,19 +6,18 @@ VALUES ('bya.mng@gmail.com', 'Byan', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCH
 INSERT INTO users (email, name, password)
 VALUES ('byambaa.mng@gmail.com', 'Mr. Byan', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2');
 --123
-    INSERT INTO roles (role)
+    INSERT INTO role (role)
 VALUES ('ADMIN');
-INSERT INTO roles (role)
+INSERT INTO role (role)
 VALUES ('OWNER');
-INSERT INTO roles (role)
+INSERT INTO role (role)
 VALUES ('CUSTOMER');
 
-
-INSERT INTO users_roles (user_id, roles_id)
+INSERT INTO users_role (user_id, role_id)
 VALUES (1, 1);
-INSERT INTO users_roles (user_id, roles_id)
+INSERT INTO users_role (user_id, role_id)
 VALUES (2, 2);
-INSERT INTO users_roles (user_id, roles_id)
+INSERT INTO users_role (user_id, role_id)
 VALUES (3, 3);
 -- Address data
 INSERT INTO address (id, street, city, state, zip_code)
@@ -34,18 +33,11 @@ VALUES (1, 'Johns Favorite Properties', 1),
        (2, 'Janes Favorite Properties', 2),
        (3, 'Bobs Favorite Properties', 3);
 
-
-
-
 -- Property data
 INSERT INTO property (id, property_name, property_type, description, number_of_rooms, rent_Amount, security_deposit_amount, number_of_bath_rooms, image_url, price, posted_date, status, id_address, owner_id, favotite_list_id)
 VALUES (1, 'Luxury Apartment', 'APARTMENT', 'A beautiful luxury apartment in a great location.', 3, 2500.00, 5000.00, 2, 'image_url_1', 350000.00, '2023-04-20', 'AVAILABLE', 1, 1, 1),
        (2, 'Cozy Condo', 'CONDO', 'A cozy condo with modern amenities.', 2, 1800.00, 3600.00, 1, 'image_url_2', 250000.00, '2023-04-22', 'AVAILABLE', 2, 2, 2),
        (3, 'Spacious House', 'HOUSE', 'A spacious house with a large backyard.', 4, 3200.00, 6400.00, 3, 'image_url_3', 450000.00, '2023-04-24', 'AVAILABLE', 3, 3, 3);
-
-
-
-
 
 -- Offer data
 INSERT INTO offer (id, property_id, customer_id, status, amount)

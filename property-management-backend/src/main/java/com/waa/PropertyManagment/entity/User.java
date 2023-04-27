@@ -25,13 +25,9 @@ public class User {
     @Column(nullable = false)
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Role> roles;
+    private List<Role> role;
 
 
-
-
-
-    private String role;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     List<Offer> offers;
 
@@ -45,4 +41,6 @@ public class User {
 
     @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL)
     private List<Message> receivedMessages;
+
+    private String isactive = "inactive";
 }
