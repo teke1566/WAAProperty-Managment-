@@ -7,7 +7,7 @@ import {
   Button,
   TextField,
 } from "@mui/material";
-
+import { toast } from 'react-toastify';
 const OfferDialog = (props) => {
   const [offer, setOffer] = useState(0);
 
@@ -17,8 +17,10 @@ const OfferDialog = (props) => {
 
   const handleMakeOffer = () => {
     console.log(`Making offer of $${offer}`);
+    props.handleAddOffer(offer);
     props.toggle();
     setOffer(0);
+    toast.success('Placed offer successfully!');
   };
 
   return (

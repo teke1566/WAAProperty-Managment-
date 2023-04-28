@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { TextField, Button, Typography, Container,Checkbox,FormControlLabel } from "@mui/material";
 import { useNavigate } from "react-router";
+import axiosInstance from "../../api/axiosInstance";
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
@@ -8,11 +9,8 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  const [phoneNumberError, setPhoneNumberError] = useState("");
   const [owner, setOwner] = useState(false);
 
   const handleSubmit = (e) => {
@@ -25,8 +23,8 @@ const RegisterPage = () => {
     setEmailError("");
 
     // Validate password
-    if (password.length < 6) {
-      setPasswordError("Password must be at least 6 characters");
+    if (password.length < 3) {
+      setPasswordError("Password must be at least 3 characters");
       return;
     }
     setPasswordError("");
@@ -38,12 +36,12 @@ const RegisterPage = () => {
     }
     setConfirmPasswordError("");
 
-    // Validate phone number
-    if (!/^\d{10}$/.test(phoneNumber)) {
-      setPhoneNumberError("Invalid phone number");
-      return;
-    }
-    setPhoneNumberError("");
+    axiosInstance.post('/authenticate/register',{email, password, name: firstName, isOwner: owner})
+    .then(response => {
+      console.log(response.data);
+      navigate('/login');
+    })
+    .catch(error => console.error(error))
   };
 
   const navigate = useNavigate();
@@ -104,41 +102,11 @@ const RegisterPage = () => {
               required
               fullWidth
               id="firstName"
-              label="First Name"
+              label="Full Name"
               name="firstName"
               autoComplete="given-name"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="lastName"
-              label="Last Name"
-              name="lastName"
-              autoComplete="family-name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="phoneNumber"
-              label="Phone Number"
-              name="phoneNumber"
-              autoComplete="tel"
-              inputProps={{
-                pattern: "[0-9]{10}", // Only allow 10 digits
-                maxLength: 10, // Limit the input to 10 characters
-              }}
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              error={phoneNumberError}
-              helperText={phoneNumberError}
             />
             <FormControlLabel control={<Checkbox checked={owner} onChange={() => setOwner(!owner)}/>} label="I am home owner" />
             

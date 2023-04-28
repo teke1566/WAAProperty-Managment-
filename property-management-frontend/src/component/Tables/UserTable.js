@@ -2,13 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
 import UserFormDialog from './UserFormDialog';
+import axiosInstance from '../../api/axiosInstance';
 
 const UserTable = () => {
   const [users, setUsers] = useState([]);
   const [openFormDialog, setOpenFormDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+
+  useEffect(() => {
+    axiosInstance.get('/admin/customer/1')
+    .then(response => {
+      setUsers(response.data);
+      console.log(response.data);
+    })
+    .catch(error => console.error(error))
+    
+  }, []);
 
   const handleOpenFormDialog = (user) => {
     setSelectedUser(user);
@@ -40,16 +50,7 @@ const UserTable = () => {
     }
   };
 
-  useEffect(() => {
-    // Fetch users from backend or local storage and set them to the state
-    const fetchedUsers = [
-      { id: 1, firstName: 'John', lastName: 'Doe', email: 'johndoe@gmail.com', role: 'customer' , status: "inactive" },
-      { id: 2, firstName: 'Jane', lastName: 'Doe', email: 'janedoe@gmail.com', role: 'owner', status: "active" },
-      { id: 3, firstName: 'Bob', lastName: 'Smith', email: 'bobsmith@gmail.com', role: 'admin',status: "active" },
-      // ...
-    ];
-    setUsers(fetchedUsers);
-  }, []);
+
 
   return (
     <div>

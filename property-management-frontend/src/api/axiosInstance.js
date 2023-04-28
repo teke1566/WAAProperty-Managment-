@@ -1,14 +1,20 @@
 import axios from 'axios';
+import Cookies from 'universal-cookie';
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:8080/api/v1/',
 });
 
+const cookies = new Cookies();
+
 axiosInstance.interceptors.request.use(
   function (config) {
-    const accessToken = getCookie('access_token');
 
-    config.headers.Authorization = `Bearer ${accessToken}`;
+    const token = cookies.get('accessToken');
+
+    if (token && !config.headers.Authorization) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
 
     return config;
   },

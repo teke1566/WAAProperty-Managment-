@@ -28,6 +28,7 @@ const FavouriteDialog = (props) => {
 
   const handleListClick = (list) => {
     setSelectedList(list);
+    props.toggle();
   };
 
   return (

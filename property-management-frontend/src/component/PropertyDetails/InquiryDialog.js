@@ -7,6 +7,7 @@ import {
     Button,
     TextField,
   } from "@mui/material";
+  import { toast } from 'react-toastify';
 
 const InquiryDialog = (props) => {
     const [inquiry, setinquiry] = useState('');
@@ -19,6 +20,8 @@ const InquiryDialog = (props) => {
       console.log(`Making inquiry of $${inquiry}`);
       props.toggle();
       setinquiry("");
+      toast.success('Inquiry sent successfully!');
+
     };
   
     return (
