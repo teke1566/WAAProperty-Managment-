@@ -3,6 +3,7 @@ package com.waa.PropertyManagment.controller;
 import com.waa.PropertyManagment.entity.Property;
 import com.waa.PropertyManagment.entity.User;
 import com.waa.PropertyManagment.entity.dto.request.PagingRequest;
+import com.waa.PropertyManagment.entity.dto.response.UserResponseDto;
 import com.waa.PropertyManagment.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,13 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+
+
+//    @GetMapping
+//    @ResponseStatus(HttpStatus.OK)
+//    public List<UserResponseDto> findAll() {
+//        return adminService.findAll();
+//    }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/customer")
@@ -41,7 +49,7 @@ public class AdminController {
     //Owner
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/owner")
-    public List<User> getAllOwners(){
+    public List<UserResponseDto> getAllOwners(){
         return adminService.getAllOwners();
     }
 
