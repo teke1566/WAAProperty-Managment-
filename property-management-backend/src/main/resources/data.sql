@@ -2,9 +2,9 @@
 INSERT INTO users (email, name, password)
 VALUES ('admin@gmail.com', 'Admin', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2'); --123
 INSERT INTO users (email, name, password)
-VALUES ('bya.mng@gmail.com', 'Byan', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2'); --123
+VALUES ('source@gmail.com', 'abe', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2'); --123
 INSERT INTO users (email, name, password)
-VALUES ('byambaa.mng@gmail.com', 'Mr. Byan', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2');
+VALUES ('foo@gmail.com', 'Mtek', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2');
 --123
     INSERT INTO role (role)
 VALUES ('ADMIN');
@@ -41,10 +41,10 @@ VALUES (100, 'Luxury Apartment', 'APARTMENT', 'A beautiful luxury apartment in a
        (102, 'Spacious House', 'HOUSE', 'A spacious house with a large backyard.', 4, 3200.00, 6400.00, 3, 'image_url_3', 450000.00, '2023-04-24', 'AVAILABLE', 102, 3, 102);
 
 -- Offer data
-INSERT INTO offer (id, property_id, customer_id, status, amount, accepted)
-VALUES (100, 100, 1, 'PENDING', 340000.00,false),
-       (101, 101, 2, 'PENDING', 245000.00, false),
-       (102, 102, 3, 'PENDING', 440000.00, false);
+INSERT INTO offer (id, property_id, customer_id, status, amount)
+VALUES (100, 100, 1, 'PENDING', 340000.00),
+       (101, 101, 2, 'PENDING', 245000.00),
+       (102, 102, 3, 'PENDING', 440000.00);
 -- -- ROLES
 
 ---- Insert properties
