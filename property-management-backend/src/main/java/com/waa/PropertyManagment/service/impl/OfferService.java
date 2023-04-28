@@ -18,6 +18,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -35,11 +36,13 @@ public class OfferService {
     public List<Offer> findActiveOffersByCustomerId(Long customerId){
        return  offerRepository.findActiveOffersByCustomerId(customerId);
     }
-    public List<Offer> findActiveOffer(){
-        List<Offer>offers= offerRepository.findAll();
-        Stream<Offer> offerOptional=offers.stream().filter((offer -> offer.getStatus().equals("Pending")));
-        return (List<Offer>) offerOptional;
+
+
+    public List<Offer> findAllActiveOffers() {
+        return offerRepository.findByStatus(Status.PENDING);
     }
+
+
 
     /*c.	Cannot cancel offer after 'contingency':
       When implementing the cancel offer functionality,
@@ -53,9 +56,8 @@ public class OfferService {
         if(offerOptional.isPresent()){
             Offer offer=offerOptional.get();
             Property property= propertyRepository.findById(offer.getProperty().getId()).orElse(null);
-            System.out.println("Property Name: "+property.getPropertyName());
             if(property!=null){
-                return !property.getStatus().name().equals(Status.CONTINGENT);
+                return !offer.getStatus().equals(Status.CONTINGENT);
             }
         }
         return  false;
