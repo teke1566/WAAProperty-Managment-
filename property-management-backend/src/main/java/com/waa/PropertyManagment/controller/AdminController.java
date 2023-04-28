@@ -31,7 +31,7 @@ public class AdminController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/customer")
-    public List<User> getAllCustomer(){
+    public List<UserResponseDto> getAllCustomer(){
         return adminService.getAllCustomer();
     }
 

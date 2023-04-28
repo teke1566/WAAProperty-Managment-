@@ -15,7 +15,7 @@ public interface AdminService extends UserDetailsService {
     List<UserResponseDto> findAll();
 
 
-    List<User> getAllCustomer();
+    List<UserResponseDto> getAllCustomer();
 
     Page<User> pagination(PagingRequest pagingRequest);
 

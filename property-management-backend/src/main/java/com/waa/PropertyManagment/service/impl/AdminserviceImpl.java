@@ -52,9 +52,27 @@ public class AdminserviceImpl implements AdminService {
     }
 
     @Override
-    public List<User> getAllCustomer() {
+    public List<UserResponseDto> getAllCustomer() {
 //        return userRepository.findUserByRole(Roles.CUSTOMER);
-        return null;
+//        return null;
+
+//        return userRepository.findAllUserByRoleOwner();
+
+//        List<User> users = userRepository.findAll()
+//                .stream()
+//                .filter(lst -> lst.getRole().get(0).getRole().equals("OWNER"))
+//                .collect(Collectors.toList());
+//
+//        return userRepository.findAll();
+
+//        return userRepository.findByRoleRole(Roles.OWNER);
+//        return users;
+
+        List<UserResponseDto> users = findAll()
+                .stream()
+                .filter(lst -> lst.getRole().equals(Roles.CUSTOMER))
+                .toList();
+        return  users;
     }
 
     @Override
