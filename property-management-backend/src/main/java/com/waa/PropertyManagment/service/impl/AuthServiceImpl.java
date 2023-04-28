@@ -13,6 +13,7 @@ import com.waa.PropertyManagment.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -41,6 +42,8 @@ public class AuthServiceImpl implements AuthService {
     private final RoleRepo roleRepo;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
@@ -53,7 +56,9 @@ public class AuthServiceImpl implements AuthService {
             List<String> roles = userDetails.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());
-            var loginResponse = new LoginResponse(accessToken, roles);
+
+            long userId = userRepository.findByEmail(userDetails.getUsername()).getId();
+            var loginResponse = new LoginResponse(accessToken, roles, userId);
             return loginResponse;
         } catch (BadCredentialsException e) {
             System.out.println("ISSUE" + e.getMessage());
