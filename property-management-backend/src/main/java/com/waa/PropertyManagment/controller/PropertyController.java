@@ -7,6 +7,7 @@ import com.waa.PropertyManagment.service.PropertyService;
 import com.waa.PropertyManagment.service.impl.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -69,6 +70,11 @@ public class PropertyController {
         return propertyService.propertiesByAddress(city);
     }
 
+    @GetMapping("/owner/{id}")
+    List<Property> findPropertiesByUsers(@PathVariable Long id){
+        return  propertyService.propertiesByUserId(id);
+    }
+
 
     @GetMapping("/criteria")
     public List<Property> getPropertyByCriteria(@RequestParam(value = "propertyType", required = false) String propertyType,
@@ -86,7 +92,8 @@ public class PropertyController {
     }
 
     @GetMapping("/active-offer")
-    public List<Offer> getActiveOffer(){
-        return offerService.findActiveOffer();
+    public ResponseEntity<List<Offer>> getAllActiveOffers() {
+        List<Offer> activeOffers = offerService.findAllActiveOffers();
+        return new ResponseEntity<>(activeOffers, HttpStatus.OK);
     }
 }

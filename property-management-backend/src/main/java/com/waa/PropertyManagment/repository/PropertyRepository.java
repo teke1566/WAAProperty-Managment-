@@ -15,6 +15,8 @@ public interface PropertyRepository extends JpaRepository<Property,Long> {
     @Query("select p from Property  p where p.address.city=?1")
     public List<Property>propertiesbyaddress(String city);
 
+    List<Property> findAllById(Long ownerId);
+
    // List<Property> findByPriceBetween(Double minPrice, Double maxPrice);
 //    List<Property> findByPropertyType(String propertyType);
     //List<Property> findByNumRooms(int numberOfRooms);

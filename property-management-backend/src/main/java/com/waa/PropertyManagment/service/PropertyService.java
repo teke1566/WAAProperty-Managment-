@@ -14,7 +14,8 @@ public interface PropertyService {
 
     PropertyDto getPropertyById(Long id);
 
-     List<Property> propertiesByAddress(String city) ;
+     List<Property> propertiesByAddress(String city);
+    public List<Property> propertiesByUserId(Long id);
 
     void cancelContingency(Long id);
 

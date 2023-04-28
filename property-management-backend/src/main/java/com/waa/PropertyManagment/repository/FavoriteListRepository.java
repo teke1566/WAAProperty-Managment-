@@ -12,5 +12,6 @@ public interface FavoriteListRepository extends JpaRepository<FavoriteList,Long>
     List<FavoriteList> findByCustomerId(Long customerId);
 
     Optional<FavoriteList> findByCustomerIdAndPropertiesId(Long customerId, Long propertyId);
+    //Optional<FavoriteList> findByCustomerAndPropertiesContaining(User customer, Property property);
 
 }

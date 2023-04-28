@@ -7,15 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @ToString
 @Data
-
 public class Address {
-
-
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
