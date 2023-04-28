@@ -51,10 +51,11 @@ public class CustomerController {
     public List<Offer> getOfferHistoryByCustomerId(@PathVariable Long customerId) {
         return offerService.findByCustomerId(customerId);
     }
+    
 
     //http://localhost:8080/api/v1/customer/5/offer-history
 
-    @GetMapping("/{customerId}/active-offers")
+    @GetMapping("/{customerId}/active-offers")//offer made by specific customer
     public List<Offer> getActiveOffersByCustomerId(@PathVariable Long customerId){
         return  offerService.findActiveOffersByCustomerId(customerId);
         //customer...properties

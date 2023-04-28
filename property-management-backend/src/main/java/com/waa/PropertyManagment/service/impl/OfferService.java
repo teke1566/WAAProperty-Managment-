@@ -10,6 +10,7 @@ import com.waa.PropertyManagment.entity.Offer;
 import com.waa.PropertyManagment.entity.Property;
 import com.waa.PropertyManagment.entity.Status;
 import com.waa.PropertyManagment.entity.User;
+import com.waa.PropertyManagment.enums.Roles;
 import com.waa.PropertyManagment.repository.OfferRepository;
 import com.waa.PropertyManagment.repository.PropertyRepository;
 import com.waa.PropertyManagment.repository.UserRepository;
@@ -28,11 +29,9 @@ import java.util.stream.Stream;
 public class OfferService {
     private final OfferRepository offerRepository;
     private final PropertyRepository propertyRepository;
-    private final UserRepository userRepository;
+    private final  UserRepository userRepository;
 
-    public OfferService(OfferRepository offerRepository,
-                        PropertyRepository propertyRepository,
-                        UserRepository userRepository){
+    public OfferService(OfferRepository offerRepository, PropertyRepository propertyRepository, UserRepository userRepository){
         this.offerRepository=offerRepository;
         this.propertyRepository=propertyRepository;
         this.userRepository=userRepository;
@@ -42,23 +41,63 @@ public class OfferService {
     }
     public List<Offer> findActiveOffersByCustomerId(Long customerId){
         User customer= userRepository.findById(customerId).get();
-//        if (customer.getRole().equals("CUSTOMER"))
-       return  offerRepository.findActiveOffersByCustomerId(customerId);
-       //
+      if (customer.getRole().equals(Roles.CUSTOMER)) {
+          return offerRepository.findActiveOffersByCustomerId(customerId);
+      }
+        System.out.println("you don't have CUSTOMER acess");
+      return null;
+
     }
+
+
+    public List<Offer> findActiveOffersByOwnerId(Long OwnerId){
+        User customer= userRepository.findById(OwnerId).get();
+        if (customer.getRole().equals(Roles.OWNER)) {
+            return offerRepository.findActiveOffersByCustomerId(OwnerId);
+        }
+        System.out.println("You don't have OWNER access");
+        return null;
+    }
+
+
 
 
     public List<Offer> findAllActiveOffers() {
         return offerRepository.findByStatus(Status.PENDING);
     }
 
+
     public List<Property> findActiveOffersProperties(Long customerId){
      List<Offer> offers=findActiveOffersByCustomerId(customerId);
         ArrayList<Property>properties = new ArrayList<>();
-     for (int i=0;i<offers.size();i++){
-         properties.add(offers.get(i).getProperty());
-     }
+        for (Offer offer : offers) {
+            properties.add(offer.getProperty());
+        }
      return properties;
+    }
+
+    public List<Property> findActiveOffersPropertiesForOwner(Long ownerId){
+        // return properties associated with specific offer
+        List<Offer>offers= findActiveOffersByOwnerId(ownerId);
+        ArrayList<Property>properties = new ArrayList<>();
+        for (Offer offer : offers) {
+            properties.add(offer.getProperty());
+
+        }
+        return properties;
+    }
+
+    public List<User> findActiveOfferPropertiesCustomer(Long ownerId){
+        List<Offer> offers =findActiveOffersByOwnerId(ownerId);
+        ArrayList<User> users =new ArrayList<>();
+        for (Offer offer:offers){
+            users.add(offer.getUser());
+        }
+        return users;
+    }
+
+    public  List<Offer> findOffersByPropertyId(Long propertyId){
+        return offerRepository.findByProperty_Id(propertyId);
     }
 
 

@@ -1,11 +1,13 @@
 package com.waa.PropertyManagment.service.impl;
 
+import com.waa.PropertyManagment.entity.Offer;
 import com.waa.PropertyManagment.entity.Property;
 import com.waa.PropertyManagment.entity.Status;
 import com.waa.PropertyManagment.entity.User;
 import com.waa.PropertyManagment.entity.dto.PropertyDto;
 import com.waa.PropertyManagment.entity.dto.PropertySearchDao;
 import com.waa.PropertyManagment.entity.dto.SearchCriteria;
+import com.waa.PropertyManagment.enums.Roles;
 import com.waa.PropertyManagment.repository.PropertyRepository;
 import com.waa.PropertyManagment.repository.UserRepository;
 import com.waa.PropertyManagment.service.PropertyService;
@@ -75,14 +77,13 @@ public class Propertyserviceimpl implements PropertyService {
     public List<Property> propertiesByUserId(Long id){
         User user= userRepository.findById(id).get();
 
-        if (Objects.equals(user.getRole(), "OWNER")) {
+        if (Objects.equals(user.getRole(), Roles.OWNER)) {
             return propertyRepository.findAllById(id);
         }
         return null;
     }
 
 
-    @Override
     public void cancelContingency(Long id) {
         updateToAvailable(id);
     }

@@ -2,6 +2,7 @@ package com.waa.PropertyManagment.controller;
 
 import com.waa.PropertyManagment.entity.Offer;
 import com.waa.PropertyManagment.entity.Property;
+import com.waa.PropertyManagment.entity.User;
 import com.waa.PropertyManagment.entity.dto.PropertyDto;
 import com.waa.PropertyManagment.service.PropertyService;
 import com.waa.PropertyManagment.service.impl.OfferService;
@@ -91,9 +92,31 @@ public class PropertyController {
         propertyService.cancelContingency(id);
     }
 
-    @GetMapping("/active-offer")
+    @GetMapping("/active-offer")//all active offer with status pending
     public ResponseEntity<List<Offer>> getAllActiveOffers() {
         List<Offer> activeOffers = offerService.findAllActiveOffers();
         return new ResponseEntity<>(activeOffers, HttpStatus.OK);
     }
+
+    @GetMapping("/owner/{ownerId}/active-offers")
+    public List<Offer> getActiveOffersByOwnerId(@PathVariable Long ownerId){
+        return  offerService.findActiveOffersByOwnerId(ownerId);
+    }
+    @GetMapping("/owner/{ownerId}/active-offers/properties")
+    public List<Property> getActiveOfferProperties(@PathVariable Long ownerId){
+        return offerService.findActiveOffersPropertiesForOwner(ownerId);
+
+    }
+    @GetMapping("/{ownerId}/active-offers/properties")
+    public List<User> getActiveOfferCustomers(@PathVariable Long ownerId){
+        return  offerService.findActiveOfferPropertiesCustomer(ownerId);
+    }
+
+
+    @GetMapping("/owner/{propertyId}")
+
+ public List<Offer> getOffersByPropertyId(@PathVariable Long propertyId){
+        return offerService.findOffersByPropertyId(propertyId);
+    }
+
 }
