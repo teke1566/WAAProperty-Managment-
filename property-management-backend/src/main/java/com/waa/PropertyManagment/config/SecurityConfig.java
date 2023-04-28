@@ -52,35 +52,42 @@ public class SecurityConfig {
 
                 .requestMatchers(HttpMethod.GET, "/api/v1/properties/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/properties/city/*").hasAuthority(Roles.OWNER.name())
-                .requestMatchers(HttpMethod.GET, "/api/v1/properties/criteria").hasAuthority(Roles.OWNER.name())
-                .requestMatchers(HttpMethod.GET, "/api/v1/properties/owner/*/cancelContingency").hasAuthority(Roles.OWNER.name())
+                .requestMatchers(HttpMethod.PUT, "/api/v1/properties/owner/*/cancelContingency").hasAuthority(Roles.OWNER.name())
 
                 .requestMatchers(HttpMethod.GET, "/api/v1/properties").hasAuthority(Roles.OWNER.name())
-                .requestMatchers(HttpMethod.GET, "/api/v1/properties/*").hasAuthority(Roles.OWNER.name())
                 .requestMatchers(HttpMethod.GET, "/api/v1/properties/*").hasAnyAuthority(Roles.CUSTOMER.name(), Roles.OWNER.name())
+                .requestMatchers(HttpMethod.GET, "/api/v1/properties/**").hasAuthority(Roles.OWNER.name())
 
-                .requestMatchers(HttpMethod.POST, "/api/v1/properties/owner").hasAuthority(Roles.OWNER.name())
-                .requestMatchers(HttpMethod.PUT, "/api/v1/properties/owner/*").hasAuthority(Roles.OWNER.name())
-                .requestMatchers(HttpMethod.DELETE, "/api/v1/properties/owner/*").hasAuthority(Roles.OWNER.name())
-                .requestMatchers(HttpMethod.PUT, "/api/v1/properties/owner/*/pend").hasAuthority(Roles.OWNER.name())
-                .requestMatchers(HttpMethod.PUT, "/api/v1/properties/owner/*/availabe").hasAuthority(Roles.OWNER.name())
-                .requestMatchers(HttpMethod.PUT, "/api/v1/properties/owner/*/contigent").hasAuthority(Roles.OWNER.name())
+                .requestMatchers(HttpMethod.POST, "/api/v1/properties").hasAuthority(Roles.OWNER.name())
+                .requestMatchers(HttpMethod.PUT, "/api/v1/properties/**").hasAuthority(Roles.OWNER.name())
+                .requestMatchers(HttpMethod.DELETE, "/api/v1/properties/**").hasAuthority(Roles.OWNER.name())
+                .requestMatchers(HttpMethod.PUT, "/api/v1/properties/owner/**").hasAuthority(Roles.OWNER.name())
+//                .requestMatchers(HttpMethod.PUT, "/api/v1/properties/owner/*/availabe").hasAuthority(Roles.OWNER.name())
+//                .requestMatchers(HttpMethod.PUT, "/api/v1/properties/owner/*/contige").hasAuthority(Roles.OWNER.name())
+
+//worked endpoint
+               .requestMatchers(HttpMethod.GET, "/api/v1/customer/filter-history/*").hasAuthority(Roles.CUSTOMER.name())
+                .requestMatchers(HttpMethod.GET, "/api/v1/customer/**").hasAuthority(Roles.CUSTOMER.name())
+                .requestMatchers(HttpMethod.GET, "/api/v1/customer/offers/**").hasAuthority(Roles.CUSTOMER.name())
+
+                .requestMatchers(HttpMethod.POST, "/api/v1/customer/offers/**").hasAuthority(Roles.CUSTOMER.name())
+                .requestMatchers(HttpMethod.POST, "/api/v1/customer/*").hasAuthority(Roles.CUSTOMER.name())
+                .requestMatchers(HttpMethod.POST, "/api/v1/customer/**").hasAuthority(Roles.CUSTOMER.name())
 
 
-               .requestMatchers(HttpMethod.GET, "/api/v1/customers/*/filter-history").hasAuthority(Roles.CUSTOMER.name())
-               .requestMatchers(HttpMethod.GET, "/api/v1/customers/*/active-offers").hasAuthority(Roles.CUSTOMER.name())
-               .requestMatchers(HttpMethod.GET, "/api/v1/customers/*/saved-properties").hasAuthority(Roles.CUSTOMER.name())
-                .requestMatchers(HttpMethod.GET, "/api/v1/customers/saved-properties").hasAuthority(Roles.CUSTOMER.name())
-                .requestMatchers(HttpMethod.GET, "/api/v1/customers/*/saved-properties").hasAuthority(Roles.CUSTOMER.name())
-                .requestMatchers(HttpMethod.GET, "/api/v1/customers/*/offers/*/receipt").hasAuthority(Roles.CUSTOMER.name())
+                .requestMatchers(HttpMethod.DELETE, "/api/v1/customers/**").hasAuthority(Roles.CUSTOMER.name())
 
-                .requestMatchers(HttpMethod.POST, "/api/v1/customers/*/saved-properties").hasAuthority(Roles.ADMIN.name())
-                .requestMatchers(HttpMethod.POST, "/api/v1/customers/*/messages").hasAuthority(Roles.CUSTOMER.name())
-                .requestMatchers(HttpMethod.POST, "/api/v1/customers/*/properties/*/offers/*/*").hasAuthority(Roles.ADMIN.name())
 
-                .requestMatchers(HttpMethod.GET, "/api/v1/customers").hasAuthority(Roles.CUSTOMER.name())
-                .requestMatchers(HttpMethod.POST, "/api/v1/customers/*").hasAuthority(Roles.CUSTOMER.name())
-                .requestMatchers(HttpMethod.DELETE, "/api/v1/customers/saved-properties/*").hasAuthority(Roles.CUSTOMER.name())
+//                .requestMatchers(HttpMethod.GET, "/api/v1/customers/saved-properties").hasAuthority(Roles.CUSTOMER.name())
+//                .requestMatchers(HttpMethod.GET, "/api/v1/customers/*/saved-properties").hasAuthority(Roles.CUSTOMER.name())
+//                .requestMatchers(HttpMethod.GET, "/api/v1/customers/*/offers/*/receipt").hasAuthority(Roles.CUSTOMER.name())
+//
+//                .requestMatchers(HttpMethod.POST, "/api/v1/customers/*/saved-properties").hasAuthority(Roles.ADMIN.name())
+//                .requestMatchers(HttpMethod.POST, "/api/v1/customers/*/messages").hasAuthority(Roles.CUSTOMER.name())
+//                .requestMatchers(HttpMethod.POST, "/api/v1/customers/*/properties/*/offers/*/*").hasAuthority(Roles.ADMIN.name())
+//
+//                .requestMatchers(HttpMethod.GET, "/api/v1/customers").hasAuthority(Roles.CUSTOMER.name())
+//                .requestMatchers(HttpMethod.POST, "/api/v1/customers/*").hasAuthority(Roles.CUSTOMER.name())
 
 //                .requestMatchers(HttpMethod.POST, "/api/v1/customers/*").hasAuthority(Roles.ADMIN.name())
 //                .requestMatchers(HttpMethod.POST, "/api/v1/customers/*/offers/*/cancel").hasAuthority(Roles.ADMIN.name())
@@ -88,13 +95,15 @@ public class SecurityConfig {
 
 
                 .requestMatchers("/api/v1/admin/**").hasAuthority(Roles.ADMIN.name())
-                .requestMatchers(HttpMethod.GET, "/api/v1/admin/customer").hasAuthority(Roles.ADMIN.name())
-                .requestMatchers(HttpMethod.GET, "/api/v1/admin/customer/*").hasAuthority(Roles.ADMIN.name())
-                .requestMatchers(HttpMethod.GET, "/api/v1/admin/owner").hasAuthority(Roles.ADMIN.name())
-                .requestMatchers(HttpMethod.GET, "/api/v1/admin/owner/*").hasAuthority(Roles.ADMIN.name())
-                .requestMatchers(HttpMethod.GET, "/api/v1/admin/*").hasAnyAuthority(Roles.ADMIN.name())
+                 .requestMatchers(HttpMethod.GET, "/api/v1/admin/**").hasAuthority(Roles.ADMIN.name())
+
+                .requestMatchers(HttpMethod.GET, "/api/v1/admin/user/*").hasAnyAuthority(Roles.ADMIN.name())
                 .requestMatchers(HttpMethod.POST, "/api/v1/admin").hasAuthority(Roles.ADMIN.name())
-                .requestMatchers(HttpMethod.PUT, "/api/v1/admin/*").hasAuthority(Roles.ADMIN.name())
+                .requestMatchers(HttpMethod.POST, "/api/v1/admin/*").hasAuthority(Roles.ADMIN.name())
+                .requestMatchers(HttpMethod.DELETE, "/api/v1/admin/**").hasAuthority(Roles.ADMIN.name())
+
+
+                .requestMatchers(HttpMethod.PUT, "/api/v1/admin/**").hasAuthority(Roles.ADMIN.name())
                 .anyRequest()
                 .authenticated()
                 .and()

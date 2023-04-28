@@ -2,9 +2,9 @@
 INSERT INTO users (email, name, password)
 VALUES ('admin@gmail.com', 'Admin', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2'); --123
 INSERT INTO users (email, name, password)
-VALUES ('bya.mng@gmail.com', 'Byan', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2'); --123
+VALUES ('source@gmail.com', 'abe', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2'); --123
 INSERT INTO users (email, name, password)
-VALUES ('byambaa.mng@gmail.com', 'Mr. Byan', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2');
+VALUES ('foo@gmail.com', 'Mtek', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2');
 --123
     INSERT INTO role (role)
 VALUES ('ADMIN');
