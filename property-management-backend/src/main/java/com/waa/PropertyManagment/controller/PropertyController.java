@@ -3,10 +3,16 @@ package com.waa.PropertyManagment.controller;
 import com.waa.PropertyManagment.entity.Offer;
 import com.waa.PropertyManagment.entity.Property;
 import com.waa.PropertyManagment.entity.dto.PropertyDto;
+import com.waa.PropertyManagment.enums.Roles;
 import com.waa.PropertyManagment.service.PropertyService;
 import com.waa.PropertyManagment.service.impl.OfferService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,10 +32,13 @@ public class PropertyController {
         return propertyService.getAllProperty();
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-
     @PostMapping("/owner")
-    public void PostProperty(@RequestBody Property property) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public void postProperty(@RequestBody @Valid Property property) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!authentication.getAuthorities().contains(new SimpleGrantedAuthority(Roles.OWNER.name()))) {
+            throw new AccessDeniedException("You are not authorized to access this resource.");
+        }
         propertyService.post(property);
     }
 
@@ -39,9 +48,11 @@ public class PropertyController {
     }
 
     @PutMapping("/owner/{id}")
-    public Property updateProperty(@RequestBody Property property, @PathVariable Long id) {
-        return propertyService.updateProperty(property, id);
+    public Property updateProperty(@RequestBody Property property, @PathVariable String id) {
+        Long propertyId = Long.parseLong(id);
+        return propertyService.updateProperty(property, propertyId);
     }
+
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/owner/{id}")
@@ -77,16 +88,24 @@ public class PropertyController {
                                                 @RequestParam(value = "price", required = false) Double price,
                                                 @RequestParam(value = "numberOfRooms", required = false)
                                                 Integer numberOfRooms) {
-        return propertyService.findByAllCriteria(propertyType, city, status, price, numberOfRooms);
-    }
+        // Check if the user has the required authorization
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!authentication.getAuthorities().contains(new SimpleGrantedAuthority(Roles.OWNER.name()))) {
+            throw new AccessDeniedException("You are not authorized to access this resource.");
+        }
 
-    @PutMapping("/owner/{id}/cancelContingency")
-    public void cancelContingency(@PathVariable Long id) {
-        propertyService.cancelContingency(id);
+        return propertyService.findByAllCriteria(propertyType, city, status, price, numberOfRooms);
     }
 
     @GetMapping("/active-offer")
     public List<Offer> getActiveOffer(){
         return offerService.findActiveOffer();
+    }
+
+    // Error handling for AccessDeniedException (403 Forbidden errors)
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public String handleAccessDeniedException(AccessDeniedException ex) {
+        return ex.getMessage();
     }
 }

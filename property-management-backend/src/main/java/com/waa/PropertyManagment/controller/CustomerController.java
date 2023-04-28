@@ -54,7 +54,7 @@ public class CustomerController {
         return offerService.findByCustomerId(customerId);
     }
 
-    //http://localhost:8080/api/v1/customer/5/offer-history
+    //http://localhost:8080/api/v1/customer/1/active-offers
 
     @GetMapping("/{customerId}/active-offers")
     public List<Offer> getActiveOffersByCustomerId(@PathVariable Long customerId){
@@ -112,19 +112,6 @@ public class CustomerController {
         return new ResponseEntity<>(offer, HttpStatus.CREATED);
     }
 
-      /*
-    * {
-    "id":8,
-    "sender":{
-        "id":4
-    },
-    "recipient":{
-      "id":5
-    },
-    "content":"message content",
-    "subject":"my_subject"
-}
-    * */
 
     @PostMapping("/send-messages")
     public ResponseEntity<Message> sendMessage(@RequestBody Message message) {
