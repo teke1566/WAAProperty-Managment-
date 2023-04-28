@@ -9,13 +9,16 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.waa.PropertyManagment.entity.Offer;
 import com.waa.PropertyManagment.entity.Property;
 import com.waa.PropertyManagment.entity.Status;
+import com.waa.PropertyManagment.entity.User;
 import com.waa.PropertyManagment.repository.OfferRepository;
 import com.waa.PropertyManagment.repository.PropertyRepository;
+import com.waa.PropertyManagment.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,21 +28,37 @@ import java.util.stream.Stream;
 public class OfferService {
     private final OfferRepository offerRepository;
     private final PropertyRepository propertyRepository;
+    private final UserRepository userRepository;
 
-    public OfferService(OfferRepository offerRepository, PropertyRepository propertyRepository){
+    public OfferService(OfferRepository offerRepository,
+                        PropertyRepository propertyRepository,
+                        UserRepository userRepository){
         this.offerRepository=offerRepository;
         this.propertyRepository=propertyRepository;
+        this.userRepository=userRepository;
     }
     public List<Offer> findByCustomerId(Long customerId) {
         return offerRepository.findByUserId(customerId);
     }
     public List<Offer> findActiveOffersByCustomerId(Long customerId){
+        User customer= userRepository.findById(customerId).get();
+//        if (customer.getRole().equals("CUSTOMER"))
        return  offerRepository.findActiveOffersByCustomerId(customerId);
+       //
     }
 
 
     public List<Offer> findAllActiveOffers() {
         return offerRepository.findByStatus(Status.PENDING);
+    }
+
+    public List<Property> findActiveOffersProperties(Long customerId){
+     List<Offer> offers=findActiveOffersByCustomerId(customerId);
+        ArrayList<Property>properties = new ArrayList<>();
+     for (int i=0;i<offers.size();i++){
+         properties.add(offers.get(i).getProperty());
+     }
+     return properties;
     }
 
 

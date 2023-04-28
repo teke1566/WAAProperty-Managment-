@@ -57,7 +57,15 @@ public class CustomerController {
     @GetMapping("/{customerId}/active-offers")
     public List<Offer> getActiveOffersByCustomerId(@PathVariable Long customerId){
         return  offerService.findActiveOffersByCustomerId(customerId);
+        //customer...properties
+        //owner offer....properties...customer
     }
+
+    @GetMapping("/{customerId}/active-offers/properties")
+    public List<Property> getActiveOfferProperties(@PathVariable Long customerId){
+        return offerService.findActiveOffersProperties(customerId);
+    }
+
 
     //http://localhost:8080/api/v1/customer/offers/5/cancel
     @PostMapping("/offers/{offerId}/cancel")
@@ -94,10 +102,10 @@ public class CustomerController {
     //http://localhost:8080/api/v1/customer/place-offer?propertyId=1&userId=5&amount=100000
     @PostMapping("/place-offer")
     public ResponseEntity<Offer> placeOffer(
-            @RequestParam Long propertyId,
+            @RequestParam String propertyId,
             @RequestParam Long userId,
             @RequestParam Double amount) {
-        Offer offer = customerService.placeOffer(propertyId, userId, amount);
+        Offer offer = customerService.placeOffer(Long.valueOf(propertyId), userId, amount);
         if (offer == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
