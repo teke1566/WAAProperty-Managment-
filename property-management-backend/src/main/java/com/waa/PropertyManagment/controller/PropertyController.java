@@ -2,13 +2,16 @@ package com.waa.PropertyManagment.controller;
 
 import com.waa.PropertyManagment.entity.Offer;
 import com.waa.PropertyManagment.entity.Property;
+import com.waa.PropertyManagment.entity.Status;
 import com.waa.PropertyManagment.entity.User;
 import com.waa.PropertyManagment.entity.dto.PropertyDto;
+import com.waa.PropertyManagment.enums.OfferStatus;
 import com.waa.PropertyManagment.enums.Roles;
 import com.waa.PropertyManagment.service.PropertyService;
 import com.waa.PropertyManagment.service.impl.OfferService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -123,7 +126,7 @@ public class PropertyController {
         return offerService.findActiveOffersPropertiesForOwner(ownerId);
 
     }
-    @GetMapping("/{ownerId}/active-offers/properties")
+    @GetMapping("/{ownerId}/active-offers/customers")
     public List<User> getActiveOfferCustomers(@PathVariable Long ownerId){
         return  offerService.findActiveOfferPropertiesCustomer(ownerId);
     }
@@ -134,12 +137,33 @@ public class PropertyController {
  public List<Offer> getOffersByPropertyId(@PathVariable Long propertyId){
         return offerService.findOffersByPropertyId(propertyId);
     }
+    @PostMapping("/owner/offer/{offerId}/accept")
 
-    // Error handling for AccessDeniedException (403 Forbidden errors)
-    @ExceptionHandler(AccessDeniedException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    public String handleAccessDeniedException(AccessDeniedException ex) {
-        return ex.getMessage();
+    public ResponseEntity<Object> acceptOffer(@PathVariable Long offerId){
+        try {
+            Offer acceptedOffer = offerService.acceptOffer(offerId);
+            acceptedOffer.setStatus(OfferStatus.ACCEPTED);
+            Property property=acceptedOffer.getProperty();
+
+            property.setStatus(Status.PENDING);
+
+            propertyService.updateProperty(property, property.getId());
+            return  new ResponseEntity<>("Offer accepted and property status changed to 'contingent'", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Offer not found", HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    @PostMapping("/owner/offer/{offerId}/reject")
+
+    public ResponseEntity<Object> rejectOffer(@PathVariable Long offerId) {
+        try {
+            offerService.rejectOffer(offerId);
+            return new ResponseEntity<>("Offer rejected", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Offer not found", HttpStatus.NOT_FOUND);
+        }
     }
 
 }

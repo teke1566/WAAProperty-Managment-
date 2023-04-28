@@ -1,6 +1,7 @@
 package com.waa.PropertyManagment.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.waa.PropertyManagment.enums.OfferStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,6 +25,7 @@ public class Offer {
     @JsonBackReference
     User user;
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private OfferStatus status;
     private Double amount;
+
 }

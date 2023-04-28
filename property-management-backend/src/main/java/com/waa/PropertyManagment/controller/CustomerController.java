@@ -3,6 +3,7 @@ package com.waa.PropertyManagment.controller;
 
 import com.itextpdf.text.DocumentException;
 import com.waa.PropertyManagment.entity.*;
+import com.waa.PropertyManagment.enums.OfferStatus;
 import com.waa.PropertyManagment.service.PropertyService;
 import com.waa.PropertyManagment.service.impl.CustomerService;
 import com.waa.PropertyManagment.service.impl.FavoriteListService;
@@ -165,6 +166,24 @@ public class CustomerController {
     public ResponseEntity<Object> removeSavedProperty(@PathVariable Long savedPropertyId){
         favoriteListService.removeFavoriteList(savedPropertyId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/offer/{offerId}/accept")
+
+    public ResponseEntity<Object> acceptOffer(@PathVariable Long offerId){
+        try {
+            Offer acceptedOffer = offerService.acceptOffer(offerId);
+            acceptedOffer.setStatus(OfferStatus.FINISHED);
+            Property property=acceptedOffer.getProperty();
+            property.setStatus(Status.CONTINGENT);
+
+
+            propertyService.updateProperty(property, property.getId());
+            return  new ResponseEntity<>("Offer accepted and property status changed to 'contingent'", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Offer not found", HttpStatus.NOT_FOUND);
+        }
+
     }
 
 

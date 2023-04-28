@@ -4,6 +4,7 @@ import com.waa.PropertyManagment.entity.Offer;
 import com.waa.PropertyManagment.entity.Property;
 import com.waa.PropertyManagment.entity.Status;
 import com.waa.PropertyManagment.entity.User;
+import com.waa.PropertyManagment.enums.OfferStatus;
 import com.waa.PropertyManagment.repository.FavoriteListRepository;
 import com.waa.PropertyManagment.repository.OfferRepository;
 import com.waa.PropertyManagment.repository.PropertyRepository;
@@ -58,7 +59,7 @@ When a customer places an offer, update the
         offer.setProperty(property);
         offer.setUser(user);
         offer.setAmount(amount);
-        offer.setStatus(Status.PENDING);
+        offer.setStatus(OfferStatus.PENDING);
 
         Offer savedOffer = offerRepository.save(offer);
 
