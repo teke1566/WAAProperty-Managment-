@@ -40,4 +40,6 @@ public class User {
 
     @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL)
     private List<Message> receivedMessages;
+
+    private String isactive = "inactive";
 }

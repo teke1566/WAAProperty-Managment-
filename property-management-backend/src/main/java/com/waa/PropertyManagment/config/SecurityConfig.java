@@ -88,6 +88,13 @@ public class SecurityConfig {
 
 
                 .requestMatchers("/api/v1/admin/**").hasAuthority(Roles.ADMIN.name())
+                .requestMatchers(HttpMethod.GET, "/api/v1/admin/customer").hasAuthority(Roles.ADMIN.name())
+                .requestMatchers(HttpMethod.GET, "/api/v1/admin/customer/*").hasAuthority(Roles.ADMIN.name())
+                .requestMatchers(HttpMethod.GET, "/api/v1/admin/owner").hasAuthority(Roles.ADMIN.name())
+                .requestMatchers(HttpMethod.GET, "/api/v1/admin/owner/*").hasAuthority(Roles.ADMIN.name())
+                .requestMatchers(HttpMethod.GET, "/api/v1/admin/*").hasAnyAuthority(Roles.ADMIN.name())
+                .requestMatchers(HttpMethod.POST, "/api/v1/admin").hasAuthority(Roles.ADMIN.name())
+                .requestMatchers(HttpMethod.PUT, "/api/v1/admin/*").hasAuthority(Roles.ADMIN.name())
                 .anyRequest()
                 .authenticated()
                 .and()
