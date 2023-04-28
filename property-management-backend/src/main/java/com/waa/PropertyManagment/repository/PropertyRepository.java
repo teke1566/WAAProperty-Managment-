@@ -17,6 +17,7 @@ public interface PropertyRepository extends JpaRepository<Property,Long> {
 
     List<Property> findAllById(Long ownerId);
 
+
    // List<Property> findByPriceBetween(Double minPrice, Double maxPrice);
 //    List<Property> findByPropertyType(String propertyType);
     //List<Property> findByNumRooms(int numberOfRooms);
