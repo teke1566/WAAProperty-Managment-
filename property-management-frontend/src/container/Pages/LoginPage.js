@@ -2,6 +2,8 @@ import { useContext, useState } from "react";
 import { TextField, Button, Typography, Container, Grid } from "@mui/material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import UserContext from "../../context/UserContext";
+import axiosInstance from "../../api/axiosInstance";
+import Cookies from 'universal-cookie';
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -22,31 +24,64 @@ const LoginPage = () => {
     }
     setEmailError("");
 
-    if (password.length < 6) {
-      setPasswordError("Password must be at least 6 characters");
+    if (password.length < 3) {
+      setPasswordError("Password must be at least 3 characters");
       return;
     }
     setPasswordError("");
 
-    if (email === "admin@gmail.com") {
-      setUser({
-        isAuthenticated: true,
-        username: "username",
-        role: "admin",
+    axiosInstance.post('/authenticate/login', {email, password})
+    .then(response => {
+      console.log(response.data);
+
+      if (!response.data.accessToken) {
+        throw new Error('No token returned from backend');
+      }
+
+      const cookies = new Cookies();
+      cookies.set('accessToken', response.data.accessToken, {
+        path: '/',
       });
-    } else if(email === "owner@gmail.com") {
-      setUser({
-        isAuthenticated: true,
-        username: "username",
-        role: "owner",
-      });
-    } else if(email === "customer@gmail.com") {
-      setUser({
-        isAuthenticated: true,
-        username: "username",
-        role: "customer",
-      });
-    }
+
+      if(response.data.roles[0] === 'ADMIN') {
+        setUser({
+          isAuthenticated: true,
+          role: "admin",
+        });
+      } else if(response.data.roles[0] === 'OWNER') {
+        setUser({
+          isAuthenticated: true,
+          role: "owner",
+          id: response.data.userId
+        });
+      } else {
+        setUser({
+          isAuthenticated: true,
+          role: "customer",
+          id: response.data.userId
+        });
+      }
+
+      console.log(user);
+    })
+    .catch(error => console.error(error))
+
+    // if (email === "admin@gmail.com") {
+    //   setUser({
+    //     isAuthenticated: true,
+    //     role: "admin",
+    //   });
+    // } else if(email === "owner@gmail.com") {
+    //   setUser({
+    //     isAuthenticated: true,
+    //     role: "owner",
+    //   });
+    // } else if(email === "customer@gmail.com") {
+    //   setUser({
+    //     isAuthenticated: true,
+    //     role: "customer",
+    //   });
+    // }
 
     if (location.state) navigate("/properties/" + location.state.propertyId);
     else navigate("/");

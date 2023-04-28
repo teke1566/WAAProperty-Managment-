@@ -8,12 +8,14 @@ import {
 } from "@mui/material";
 import { Search } from "@mui/icons-material";
 
-const propertyTypes = [
-  { value: "", label: "None" },
-  { value: "apartment", label: "Apartment" },
-  { value: "house", label: "House" },
-  { value: "condo", label: "Condo" },
-];
+  const propertyTypes = [
+    { value: "", label: "None" },
+    { value: "APARTMENT", label: "Apartment" },
+    { value: "HOUSE", label: "House" },
+    { value: "CONDO", label: "Condo" },
+    { value: "TOWNHOUSE", label: "Townhouse" },
+    { value: "DUPLEX", label: "Duplex" },
+  ];
 
 const homeTypes = [
   { value: "", label: "None" },
@@ -53,13 +55,14 @@ const Filters = (props) => {
   const [location, setLocation] = useState("");
   const [bedroom, setbedroom] = useState("");
   const [bathroom, setbathroom] = useState("");
+  const [flag, setFlag] = useState(true);
 
   useEffect(() => {
-
-  }, []);
+    props.handleFilter(location, bedroom, propertyType, maxPrice);
+  }, [flag,bedroom, propertyType, maxPrice]);
 
   const handleSearch = () => {
-    console.log(location);
+    setFlag(!flag);
   };
 
 
@@ -104,7 +107,9 @@ const Filters = (props) => {
           fullWidth
           select
           value={propertyType}
-          onChange={(e) => setPropertyType(e.target.value)}
+          onChange={(e) => {
+            setPropertyType(e.target.value);
+          }}
         >
           {propertyTypes.map((option) => (
             <MenuItem key={option.value} value={option.value}>
@@ -120,7 +125,9 @@ const Filters = (props) => {
           fullWidth
           select
           value={bedroom}
-          onChange={(e) => setbedroom(e.target.value)}
+          onChange={(e) => {
+            setbedroom(e.target.value);
+          }}
         >
             {bedrooms.map((option) => (
             <MenuItem key={option.value} value={option.value}>
@@ -181,7 +188,9 @@ const Filters = (props) => {
           fullWidth
           type="number"
           value={maxPrice}
-          onChange={(e) => setMaxPrice(e.target.value)}
+          onChange={(e) => {
+            setMaxPrice(e.target.value);
+          }}
           InputProps={{
             startAdornment: <InputAdornment position="start">$</InputAdornment>,
           }}

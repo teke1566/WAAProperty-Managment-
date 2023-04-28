@@ -4,12 +4,12 @@ import Header from "./container/Header/Header";
 import UserContext from "./context/UserContext";
 import PageRoutes from "./routes/PageRoutes";
 import { BrowserRouter } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [user, setUser] = useState({
     isAuthenticated: false,
-    username: null,
-    role: "viewer",
     id: null,
   });
 
@@ -19,6 +19,7 @@ function App() {
         <UserContext.Provider value={{ user, setUser }}>
           <Header />
           <PageRoutes />
+          <ToastContainer />
         </UserContext.Provider>
       </BrowserRouter>
     </div>

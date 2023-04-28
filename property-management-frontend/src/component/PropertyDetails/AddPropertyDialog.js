@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -9,25 +9,59 @@ import {
   Grid,
   MenuItem,
 } from "@mui/material";
+import axiosInstance from "../../api/axiosInstance";
+import { useNavigate } from "react-router";
+import UserContext from "../../context/UserContext";
+import { toast } from 'react-toastify';
 
 const AddPropertyDialog = (props) => {
-  const { property } = props;
+  const { property} = props;
+
+  const { user } = useContext(UserContext);
 
   const [formData, setFormData] = useState({
-    address: property?.address || "",
-    price: property?.price || "",
-    bedrooms: property?.bedrooms || "",
-    bathrooms: property?.bathrooms || "",
-    listType: property?.listType || "",
-    propertyType: property?.type || "",
-    imageUrl: property?.image || "",
+    street: "",
+    city: "",
+    state: "",
+    zipcode: "",
+    price: "",
+    bedrooms: "",
+    bathrooms: "",
+    listType: "",
+    propertyType: "",
+    imageUrl: "",
+    propertyName: "",
+    description: ""
   });
+
+  useEffect(() => {
+    if (property) {
+      setFormData({
+        street: property?.address?.street || "",
+        city: property?.address?.city || "",
+        state: property?.address?.state || "",
+        zipcode: property?.address?.zipcode || "",
+        price: property?.price || "",
+        bedrooms: property?.numberOfRooms || "",
+        bathrooms: property?.numberOfBathRooms || "",
+        listType: property?.listType || "",
+        propertyType: property?.propertyType || "",
+        imageUrl: property?.imageUrl || "",
+        propertyName: property?.propertyName || "",
+        description: property?.description || "",
+      });
+    }
+  }, [property]);
+
+  const navigate = useNavigate();
 
   const propertyTypes = [
     { value: "", label: "None" },
-    { value: "apartment", label: "Apartment" },
-    { value: "house", label: "House" },
-    { value: "condo", label: "Condo" },
+    { value: "APARTMENT", label: "Apartment" },
+    { value: "HOUSE", label: "House" },
+    { value: "CONDO", label: "Condo" },
+    { value: "TOWNHOUSE", label: "Townhouse" },
+    { value: "DUPLEX", label: "Duplex" },
   ];
 
   const homeTypes = [
@@ -69,21 +103,94 @@ const AddPropertyDialog = (props) => {
     //   bedrooms: "",
     //   bathrooms: "",
     // });
+    if(property) {
+      props.setProperty({
+        ...property,
+        address: {
+          city: formData.city,
+          state: formData.state,
+          street: formData.street,
+          zipcode: formData.zipcode,
+        },
+        price: formData.price,
+        numberOfRooms: formData.bedrooms,
+        numberOfBathRooms: formData.bathrooms,
+        
+      });
+    } else {
+      addProperty();
+    }
+    props.toggle();
   };
 
+  const addProperty = () => {
+    const newProperty = {
+      address: {
+        city: formData.city,
+        state: formData.state,
+        street: formData.street,
+        zipcode: formData.zipcode,
+      },
+      imageUrl: formData.imageUrl,
+      price: formData.price,
+        numberOfRooms: formData.bedrooms,
+        numberOfBathRooms: formData.bathrooms,
+      propertyType: formData.propertyType,
+      propertyName: formData.propertyName,
+        description: formData.description,
+        // users_id: user.id,
+    };
+    console.log("newProperty = ", newProperty);
+    toast.success('Added property successfully!');
+
+    // axiosInstance.post('/properties/owner',newProperty)
+    // .then(response => navigate('/'))
+    // .catch(error => console.error(error))
+
+  }
   return (
     <Dialog open={props.open} onClose={props.toggle}>
       <DialogTitle>{property ? "Edit" : "New Property"}</DialogTitle>
-      <DialogContent>
+      <DialogContent style={{ paddingTop: 20 }}>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <TextField
-                name="address"
-                label="Address"
+                name="street"
+                label="Street"
                 variant="outlined"
                 fullWidth
-                value={formData.address}
+                value={formData.street}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                name="city"
+                label="City"
+                variant="outlined"
+                fullWidth
+                value={formData.city}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                name="state"
+                label="State"
+                variant="outlined"
+                fullWidth
+                value={formData.state}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                name="zipcode"
+                label="Zipcode"
+                variant="outlined"
+                fullWidth
+                value={formData.zipcode}
                 onChange={handleChange}
               />
             </Grid>
@@ -175,7 +282,26 @@ const AddPropertyDialog = (props) => {
                 ))}
               </TextField>
             </Grid>
-            
+            <Grid item xs={6}>
+              <TextField
+                name="propertyName"
+                label="propertyName"
+                variant="outlined"
+                fullWidth
+                value={formData.propertyName}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                name="description"
+                label="description"
+                variant="outlined"
+                fullWidth
+                value={formData.description}
+                onChange={handleChange}
+              />
+            </Grid>
           </Grid>
         </form>
       </DialogContent>

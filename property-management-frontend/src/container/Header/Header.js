@@ -3,17 +3,19 @@ import Button from "@mui/material/Button";
 import "./Header.css";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../../context/UserContext";
+import Cookies from "universal-cookie";
 
 const Header = () => {
-
   const { user, setUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
   const logout = () => {
     setUser({});
-    navigate('/');
-  }
+    const cookies = new Cookies();
+    cookies.remove("accessToken");
+    navigate("/");
+  };
   return (
     <div className="header">
       <label>Header</label>
@@ -22,7 +24,14 @@ const Header = () => {
       </Link>
       {user.role ? (
         <>
-          <Button variant="text" onClick={() => logout()}>Logout</Button>
+          {user.role === 'customer' ? <>
+          <Button variant="text" onClick={() => navigate('/offers')}>
+            Offers
+          </Button>
+          </> : null}
+          <Button variant="text" onClick={() => logout()}>
+            Logout
+          </Button>
         </>
       ) : (
         <>

@@ -23,6 +23,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddPropertyDialog from "./AddPropertyDialog";
 import DeleteDialog from "./DeleteDialog";
 import axiosInstance from "../../api/axiosInstance";
+import { toast } from 'react-toastify';
 
 const PropertyDetails = () => {
   const [openOfferDiaglog, setOpenOffer] = useState(false);
@@ -36,9 +37,11 @@ const PropertyDetails = () => {
 
   useEffect(() => {
     axiosInstance.get("properties/" + params.id)
-    .then(response => setProperty(response.data))
+    .then(response => {
+      setProperty(response.data);
+      console.log(response.data);
+    })
     .catch(error => console.error(error));
-    console.log(property);
   }, [params.id]);
 
   const { user } = useContext(UserContext);
@@ -52,17 +55,29 @@ const PropertyDetails = () => {
   };
 
   const handleOffer = () => {
-    // checkUser();
+    checkUser();
     setOpenOffer(!openOfferDiaglog);
   };
 
+  const handleAddOffer = (amount) => {
+    const reqParams = {
+      propertyId: params.id,
+      userId: user.id,
+      amount: amount
+    }
+    console.log(reqParams);
+    axiosInstance.post(`/customer/place-offer?propertyId=${params.id}&userId=${user.id}&amount=${amount}`)
+    .then(response => console.log(response.data))
+    .catch(error => console.error(error));
+  }
+
   const handleFavouriteList = () => {
-    // checkUser();
+    checkUser();
     setOpenFav(!openFavorites);
   };
 
   const handleInquiry = () => {
-    // checkUser();
+    checkUser();
     setOpenInquiry(!openInquiry);
   };
 
@@ -75,6 +90,13 @@ const PropertyDetails = () => {
   }
 
   const handleDelete = () => {
+    if(property.status === "PENDING") {
+      toast.error('Cannot delete pending property!');
+    } else {
+      axiosInstance.delete(`/properties/owner/${params.id}`)
+      .then(response => navigate('/'))
+      .catch(error => console.error(error))
+    }
     console.log("delete " + params.id);
   }
 
@@ -89,21 +111,21 @@ const PropertyDetails = () => {
         />
         <CardContent className="propertyContent">
           <div className="statusWrap">
-            {property.status === "available" ? (
+            {property.status === "AVAILABLE" ? (
               <CheckCircleIcon
                 color="success"
                 fontSize="small"
                 className="statusIcon"
               />
             ) : null}
-            {property.status === "pending" ? (
+            {property.status === "PENDING" ? (
               <AccessTimeIcon
                 style={{ color: "#f8b21d" }}
                 fontSize="small"
                 className="statusIcon"
               />
             ) : null}
-            {property.status === "contingent" ? (
+            {property.status === "CONTINGENT" ? (
               <BorderColorSharpIcon
                 style={{ color: "#f8b21d" }}
                 fontSize="small"
@@ -143,7 +165,7 @@ const PropertyDetails = () => {
               >
                 Edit
               </Button>
-              <AddPropertyDialog open={openEditDialog} toggle={handleEditDialog} property={property}/>
+              <AddPropertyDialog open={openEditDialog} toggle={handleEditDialog} property={property} setProperty={setProperty}/>
               <Button
                 onClick={handleDeleteDialog}
                 variant="contained"
@@ -158,15 +180,6 @@ const PropertyDetails = () => {
                 toggle={handleDeleteDialog}
                 handleDelete={handleDelete}
               />
-              {/* <Button
-                onClick={handleInquiry}
-                variant="contained"
-                color="success"
-                endIcon={<CheckIcon />}
-              >
-                Mark as sold
-              </Button>
-              <InquiryDialog open={openInquiry} toggle={handleInquiry} /> */}
             </>
           ) : (
             <>
@@ -179,7 +192,7 @@ const PropertyDetails = () => {
               >
                 Make Offer
               </Button>
-              <OfferDialog open={openOfferDiaglog} toggle={handleOffer} />
+              <OfferDialog open={openOfferDiaglog} toggle={handleOffer} handleAddOffer={handleAddOffer}/>
               <Button
                 onClick={handleFavouriteList}
                 variant="contained"
@@ -205,14 +218,12 @@ const PropertyDetails = () => {
           )}
 
           <Typography variant="h6" gutterBottom fontWeight={"bold"}>
+            Title:
+          </Typography>
+          <Typography variant="body1">{property.propertyName}</Typography>
+          <Typography variant="h6" gutterBottom fontWeight={"bold"}>
             Description:
           </Typography>
-          <Typography variant="body1">{property.description}</Typography>
-          <Typography variant="body1">{property.description}</Typography>
-          <Typography variant="body1">{property.description}</Typography>
-          <Typography variant="body1">{property.description}</Typography>
-          <Typography variant="body1">{property.description}</Typography>
-          <Typography variant="body1">{property.description}</Typography>
           <Typography variant="body1">{property.description}</Typography>
         </CardContent>
       </Card>

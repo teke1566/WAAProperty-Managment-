@@ -26,11 +26,9 @@ const PropertyList = (props) => {
           <Grid
             item
             key={property.id}
-            xs={2.4}
-            sm={2.4}
+            xs={6}
+            sm={4}
             md={2.4}
-            lg={2.4}
-            xl={2.4}
           >
             <Link to={"/properties/" + property.id}>
               <Card style={styles.card}>
@@ -42,21 +40,21 @@ const PropertyList = (props) => {
                 />
                 <CardContent style={styles.cardContent}>
                   <div className="statusWrap">
-                    {property.status === "available" ? (
+                    {property.status === "AVAILABLE" ? (
                       <CheckCircleIcon
                         color="success"
                         fontSize="small"
                         className="statusIcon"
                       />
                     ) : null}
-                    {property.status === "pending" ? (
+                    {property.status === "PENDING" ? (
                       <AccessTimeIcon
                         style={{ color: "#f8b21d" }}
                         fontSize="small"
                         className="statusIcon"
                       />
                     ) : null}
-                    {property.status === "contingent" ? (
+                    {property.status === "CONTINGENT" ? (
                       <BorderColorSharpIcon
                         style={{ color: "#f8b21d" }}
                         fontSize="small"
@@ -81,10 +79,10 @@ const PropertyList = (props) => {
                     <strong>{property.size}</strong> sqft
                   </Typography>
                   <Typography>
-                    <strong>{property.type}</strong> for{" "}
-                    <strong>{property.listType}</strong>
+                    <strong>{property.propertyType}</strong> for{" "}
+                    <strong>{property.listType}sale</strong>
                   </Typography>
-                  <Typography fontSize={15}>{property.address.street}, {property.address.city}, {property.address.state} {property.address.zipcode}</Typography>
+                  {/* <Typography fontSize={15}>{property?.address?.street}, {property?.address?.city}, {property?.address?.state} {property?.address?.zipcode}</Typography> */}
                 </CardContent>
               </Card>
             </Link>
