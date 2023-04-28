@@ -10,10 +10,12 @@ import com.waa.PropertyManagment.entity.Offer;
 import com.waa.PropertyManagment.entity.Property;
 import com.waa.PropertyManagment.entity.Status;
 import com.waa.PropertyManagment.entity.User;
+import com.waa.PropertyManagment.enums.OfferStatus;
 import com.waa.PropertyManagment.enums.Roles;
 import com.waa.PropertyManagment.repository.OfferRepository;
 import com.waa.PropertyManagment.repository.PropertyRepository;
 import com.waa.PropertyManagment.repository.UserRepository;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 
@@ -22,8 +24,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class OfferService {
@@ -101,6 +101,21 @@ public class OfferService {
     }
 
 
+
+
+    public void rejectOffer(Long offerId) throws ChangeSetPersister.NotFoundException {
+        Offer offer = offerRepository.findById(offerId).orElseThrow(ChangeSetPersister.NotFoundException::new);
+        offer.setStatus(OfferStatus.REJECTED);
+        offer.getProperty().setStatus(Status.AVAILABLE);
+        offerRepository.save(offer);
+    }
+    public Offer acceptOffer(Long offerId) throws ChangeSetPersister.NotFoundException {
+        Offer offer =offerRepository.findById(offerId).orElseThrow((ChangeSetPersister.NotFoundException::new));
+        offer.setStatus(OfferStatus.ACCEPTED);
+        offer.getProperty().setStatus(Status.CONTINGENT);
+        offerRepository.save(offer);
+        return offer;
+    }
 
     /*c.	Cannot cancel offer after 'contingency':
       When implementing the cancel offer functionality,
