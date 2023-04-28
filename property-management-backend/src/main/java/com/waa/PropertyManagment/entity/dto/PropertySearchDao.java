@@ -1,6 +1,5 @@
 package com.waa.PropertyManagment.entity.dto;
 
-import com.waa.PropertyManagment.entity.Address;
 import com.waa.PropertyManagment.entity.Property;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -24,13 +23,13 @@ public class PropertySearchDao {
         //select from property
         Root<Property> root = criteriaQuery.from(Property.class);
         //we did the join tto access the embedded(address) object attribute city
-        Join<Property, Address> address = root.join("address");
+        //Join<Property, Address> address = root.join("address");
         if (searchCriteria.getPropertyType() != null) {
             Predicate propertyTypePredicate = criteriaBuilder.like(root.get("propertyType"), "%" + searchCriteria.getPropertyType() + "%");
             predicates.add(propertyTypePredicate);
         }
         if (searchCriteria.getCity() != null) {
-            Predicate addressPredicate = criteriaBuilder.like(address.get("city"), "%" + searchCriteria.getCity() + "%");
+            Predicate addressPredicate = criteriaBuilder.like(root.get("city"), "%" + searchCriteria.getCity() + "%");
             predicates.add(addressPredicate);
 
         }
@@ -47,7 +46,7 @@ public class PropertySearchDao {
             Predicate nnumberOfRoomsPredicate = criteriaBuilder.equal(root.get("numberOfRooms"), searchCriteria.getNumberOfRooms());
             predicates.add(nnumberOfRoomsPredicate);
         }
-        criteriaQuery.where(criteriaBuilder.or(predicates.toArray(new Predicate[0])));
+        criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
         TypedQuery<Property> query = em.createQuery(criteriaQuery);
 
         return query.getResultList();

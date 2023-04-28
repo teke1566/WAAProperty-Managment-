@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface PropertyRepository extends JpaRepository<Property,Long> {
 
-    @Query("select p from Property  p where p.address.city=?1")
+    @Query("select p from Property  p where p.city=?1")
     public List<Property>propertiesbyaddress(String city);
 
     List<Property> findAllById(Long ownerId);

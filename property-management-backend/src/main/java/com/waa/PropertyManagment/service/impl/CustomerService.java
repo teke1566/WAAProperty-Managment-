@@ -71,7 +71,7 @@ When a customer places an offer, update the
         //String ownerEmail1 ="getaunayaleneh@gmail.com";
         String subject = "New offer on your property";
         String message = "You have received a new offer of " + amount + " on your property at " +
-                savedOffer.getProperty().getAddress().getCity();
+                savedOffer.getProperty().getCity();
         emailService.sendEmail(ownerEmail, subject, message);
 
         return savedOffer;

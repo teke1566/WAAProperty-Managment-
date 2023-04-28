@@ -93,10 +93,10 @@ public class PropertyController {
                                                 @RequestParam(value = "numberOfRooms", required = false)
                                                 Integer numberOfRooms) {
         // Check if the user has the required authorization
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!authentication.getAuthorities().contains(new SimpleGrantedAuthority(Roles.OWNER.name()))) {
-            throw new AccessDeniedException("You are not authorized to access this resource.");
-        }
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (!authentication.getAuthorities().contains(new SimpleGrantedAuthority(Roles.OWNER.name()))) {
+//            throw new AccessDeniedException("You are not authorized to access this resource.");
+//        }
 
         return propertyService.findByAllCriteria(propertyType, city, status, price, numberOfRooms);
     }

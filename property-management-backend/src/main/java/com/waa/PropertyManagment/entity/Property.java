@@ -24,7 +24,7 @@ public class Property  {
     private String propertyType;
     private String description;
     private int numberOfRooms;
-// we use @JsonBackReference to solve the null exeption when returing on postman
+    // we use @JsonBackReference to solve the null exeption when returing on postman
     private Double rentAmount;
 
     private Double securityDepositAmount;
@@ -32,14 +32,18 @@ public class Property  {
     private String imageUrl;
 
     private double price;
+    private String street;
+    private  String  city;
+    private  String state;
+    private  String zipCode;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate postedDate;
     @Enumerated(EnumType.STRING)
     private Status status;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_address")
-    @JsonBackReference
-    private Address address;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "id_address")
+//    @JsonBackReference
+//    private Address address;
     //staffes i added below
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -47,7 +51,7 @@ public class Property  {
     @JsonBackReference
     private User users_id;
     @ManyToOne (cascade = CascadeType.ALL)
-    @JoinColumn(name = "favotite_list_id")
+    @JoinColumn(name = "favorite_list_id")
     @JsonBackReference
     private FavoriteList favoriteList;
 

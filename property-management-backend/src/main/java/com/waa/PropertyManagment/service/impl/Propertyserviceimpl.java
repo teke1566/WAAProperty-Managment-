@@ -131,7 +131,7 @@ public class Propertyserviceimpl implements PropertyService {
             toUpate.setPropertyName(property.getPropertyName());
             toUpate.setDescription(property.getDescription());
             toUpate.setNumberOfBathRooms(property.getNumberOfBathRooms());
-            toUpate.setAddress(property.getAddress());
+           // toUpate.setAddress(property.getAddress());
             toUpate.setPrice(property.getPrice());
             toUpate.setNumberOfRooms(property.getNumberOfRooms());
             toUpate.setPostedDate(property.getPostedDate());

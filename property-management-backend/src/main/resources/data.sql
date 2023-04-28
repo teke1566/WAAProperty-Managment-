@@ -6,7 +6,7 @@ VALUES ('source@gmail.com', 'abe', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4
 INSERT INTO users (email, name, password)
 VALUES ('foo@gmail.com', 'Mtek', '$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2');
 --123
-    INSERT INTO role (role)
+INSERT INTO role (role)
 VALUES ('ADMIN');
 INSERT INTO role (role)
 VALUES ('OWNER');
@@ -21,12 +21,12 @@ VALUES (2, 2);
 INSERT INTO users_role (user_id, role_id)
 VALUES (3, 3);
 -- Address data
-INSERT INTO address (id, street, city, state, zip_code)
-VALUES (100, '123 Main St', 'New York', 'NY', '10001'),
-       (101, '456 Central Ave', 'Los Angeles', 'CA', '90001'),
-       (102, '789 Park Ave', 'Chicago', 'IL', '60601'),
-       (103, '321 Oak St', 'Houston', 'TX', '77001'),
-       (104, '654 Elm St', 'Miami', 'FL', '33101');
+-- INSERT INTO address (id, street, city, state, zip_code)
+-- VALUES (100, '123 Main St', 'New York', 'NY', '10001'),
+--        (101, '456 Central Ave', 'Los Angeles', 'CA', '90001'),
+--        (102, '789 Park Ave', 'Chicago', 'IL', '60601'),
+--        (103, '321 Oak St', 'Houston', 'TX', '77001'),
+--        (104, '654 Elm St', 'Miami', 'FL', '33101');
 
 -- FavoriteList data
 INSERT INTO saved_list (id, name, user_id)
@@ -34,11 +34,27 @@ VALUES (100, 'Johns Favorite Properties', 1),
        (101, 'Janes Favorite Properties', 2),
        (102, 'Bobs Favorite Properties', 3);
 
--- Property data
-INSERT INTO property (id, property_name, property_type, description, number_of_rooms, rent_Amount, security_deposit_amount, number_of_bath_rooms, image_url, price, posted_date, status, id_address, owner_id, favotite_list_id)
-VALUES (100, 'Luxury Apartment', 'APARTMENT', 'A beautiful luxury apartment in a great location.', 3, 2500.00, 5000.00, 2, 'image_url_1', 350000.00, '2023-04-20', 'AVAILABLE', 100, 1, 100),
-       (101, 'Cozy Condo', 'CONDO', 'A cozy condo with modern amenities.', 2, 1800.00, 3600.00, 1, 'image_url_2', 250000.00, '2023-04-22', 'AVAILABLE', 101, 2, 101),
-       (102, 'Spacious House', 'HOUSE', 'A spacious house with a large backyard.', 4, 3200.00, 6400.00, 3, 'image_url_3', 450000.00, '2023-04-24', 'AVAILABLE', 102, 3, 102);
+
+
+--property
+
+
+
+INSERT INTO property (id, property_name, property_type, description, number_of_rooms, rent_Amount, security_deposit_amount, number_of_bath_rooms, image_url, price, street, city, state, zip_code, posted_date, status, owner_id, favorite_list_id)
+VALUES
+    (100, 'Cozy Apartment', 'Apartment', 'A cozy apartment with a great view of the city', 2, 1000.00, 2000.00, 1, 'https://www.example.com/images/1.jpg', 120000.00, '123 Main St', 'boston', 'CA', '12345', '2022-01-01', 'AVAILABLE', 1, 100),
+    (101, 'Spacious Condo', 'Condo', 'A spacious condo with plenty of room for a family', 3, 2000.00, 3000.00, 2, 'https://www.example.com/images/2.jpg', 250000.00, '456 Elm St', 'miami', 'fl', '12345', '2022-02-15', 'AVAILABLE', 2, 101),
+    (102, 'Luxury Home', 'House', 'A luxurious home with all the amenities', 5, 5000.00, 10000.00, 4, 'https://www.example.com/images/3.jpg', 750000.00, '789 Oak St', 'Atlanta', 'CA', '12345', '2022-03-30', 'AVAILABLE', 3, 102),
+
+    (103, 'Spacious Condo', 'Condo', 'A spacious condo with plenty of room for a family', 3, 2000.00, 3000.00, 2, 'https://www.example.com/images/2.jpg', 250000.00, '456 Elm St', 'miami', 'fl', '12345', '2022-02-15', 'AVAILABLE', 2, 101),
+    (104, 'Downtown Loft', 'Apartment', 'A modern loft apartment in the heart of the city', 1, 1500.00, 3000.00, 1, 'https://www.example.com/images/4.jpg', 180000.00, '10 Main St', 'atlanta', 'CA', '54321', '2022-04-15', 'AVAILABLE', 1, 100),
+    (105, 'Lakefront Cabin', 'Cabin', 'A cozy cabin on the shores of a peaceful lake', 2, 800.00, 1600.00, 1, 'https://www.example.com/images/5.jpg', 100000.00, '1234 Lakeside Dr', 'dc', 'CA', '54321', '2022-05-01', 'AVAILABLE', 3, 102);
+
+-- -- Property data
+-- INSERT INTO property (id, property_name, property_type, description, number_of_rooms, rent_Amount, security_deposit_amount, number_of_bath_rooms, image_url, price, posted_date, status, id_address, owner_id, favotite_list_id)
+-- VALUES (100, 'Luxury Apartment', 'APARTMENT', 'A beautiful luxury apartment in a great location.', 3, 2500.00, 5000.00, 2, 'image_url_1', 350000.00, '2023-04-20', 'AVAILABLE', 100, 1, 100),
+--        (101, 'Cozy Condo', 'CONDO', 'A cozy condo with modern amenities.', 2, 1800.00, 3600.00, 1, 'image_url_2', 250000.00, '2023-04-22', 'AVAILABLE', 101, 2, 101),
+--        (102, 'Spacious House', 'HOUSE', 'A spacious house with a large backyard.', 4, 3200.00, 6400.00, 3, 'image_url_3', 450000.00, '2023-04-24', 'AVAILABLE', 102, 3, 102);
 
 -- Offer data
 INSERT INTO offer (id, property_id, customer_id, status, amount)
