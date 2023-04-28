@@ -15,13 +15,13 @@ public class Offer {
     //One property can have many offers associated with it
     @ManyToOne
     @JoinColumn(name = "property_id")
-    @JsonBackReference
+    //@JsonBackReference
     private Property property;
 
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    @JsonBackReference
+    //@JsonBackReference
     User user;
     @Enumerated(EnumType.STRING)
     private Status status;

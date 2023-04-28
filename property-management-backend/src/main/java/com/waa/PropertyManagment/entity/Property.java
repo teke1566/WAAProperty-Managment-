@@ -13,7 +13,7 @@ import java.time.LocalDate;
 
 @Entity
 
-@ToString
+
 @Data
 public class Property  {
     @Id
@@ -48,11 +48,11 @@ public class Property  {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
-    @JsonBackReference
+    //@JsonBackReference
     private User users_id;
     @ManyToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "favorite_list_id")
-    @JsonBackReference
+    //@JsonBackReference
     private FavoriteList favoriteList;
 
 }

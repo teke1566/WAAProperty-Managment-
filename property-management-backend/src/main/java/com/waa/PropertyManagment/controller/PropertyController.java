@@ -33,58 +33,69 @@ public class PropertyController {
         return propertyService.getAllProperty();
     }
 
-    @PostMapping("/owner")
+
+    //localhost:8080/api/v1/properties/owner/102
+    @PostMapping("/owner/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void postProperty(@RequestBody @Valid Property property) {
+    public void postProperty(@RequestBody @Valid Property property,@PathVariable Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!authentication.getAuthorities().contains(new SimpleGrantedAuthority(Roles.OWNER.name()))) {
             throw new AccessDeniedException("You are not authorized to access this resource.");
         }
-        propertyService.post(property);
+        propertyService.post(property,id);
     }
 
+    //localhost:8080/api/v1/properties/1
     @GetMapping("/{id}")
     public PropertyDto getPropertyById(@PathVariable Long id) {
         return propertyService.getPropertyById(id);
     }
 
+
+//localhost:8080/api/v1/properties/owner/102
     @PutMapping("/owner/{id}")
     public Property updateProperty(@RequestBody Property property, @PathVariable Long id) {
         return propertyService.updateProperty(property, id);
     }
 
+    //localhost:8080/api/v1/properties/owner/102
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/owner/{id}")
     public void deleteProperty(@PathVariable Long id) {
         propertyService.deleteProperty(id);
     }
 
+    //localhost:8080/api/v1/properties/owner/102/pend
     @PutMapping("/owner/{id}/pend")
     public Property UpdateToPending(@PathVariable Long id) {
         return propertyService.updateToPending(id);
     }
 
+
+    //localhost:8080/api/v1/properties/owner/102/availabe
     @PutMapping("/owner/{id}/availabe")
     public void UpdateToAvailable(@PathVariable Long id) {
         propertyService.updateToAvailable(id);
     }
 
+    // //localhost:8080/api/v1/properties/owner/102/contigent
     @PutMapping("/owner/{id}/contigent")
     public void UpdateToCONTINGENT(@PathVariable Long id) {
         propertyService.updateToCONTINGENT(id);
     }
 
+    // //localhost:8080/api/v1/properties/city/miami
     @GetMapping("/city/{city}")
     public List<Property> getPropertyBycity(@PathVariable String city) {
         return propertyService.propertiesByAddress(city);
     }
-
+// //localhost:8080/api/v1/properties/owner/102
     @GetMapping("/owner/{id}")
     List<Property> findPropertiesByUsers(@PathVariable Long id){
         return  propertyService.propertiesByUserId(id);
     }
 
-
+// //localhost:8080/api/v1/properties/criteria
     @GetMapping("/criteria")
     public List<Property> getPropertyByCriteria(@RequestParam(value = "propertyType", required = false) String propertyType,
                                                 @RequestParam(value = "city", required = false) String city,
@@ -101,11 +112,14 @@ public class PropertyController {
         return propertyService.findByAllCriteria(propertyType, city, status, price, numberOfRooms);
     }
 
+    // //localhost:8080/api/v1/properties/owner/102/cancelContingency
     @PutMapping("/owner/{id}/cancelContingency")
     public void cancelContingency(@PathVariable Long id) {
         propertyService.cancelContingency(id);
     }
 
+
+    //localhost:8080/api/v1/properties/active-offer
     @GetMapping("/active-offer")
     public ResponseEntity<List<Offer>> getAllActiveOffers() {
         List<Offer> activeOffers = offerService.findAllActiveOffers();

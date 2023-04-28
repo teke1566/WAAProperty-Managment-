@@ -8,7 +8,7 @@ import java.util.List;
 
 
 public interface PropertyService {
-    void post(Property property);
+    void post(Property property, Long ownerid);
 
     List<PropertyDto> getAllProperty();
 

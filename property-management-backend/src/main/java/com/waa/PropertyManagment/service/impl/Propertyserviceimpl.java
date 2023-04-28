@@ -31,19 +31,24 @@ public class Propertyserviceimpl implements PropertyService {
     UserRepository userRepository;
 
     @Override
-    public void post(Property property) {
+    public void post(Property property, Long id) {
         try {
             Status status = Status.AVAILABLE;
+            var user = userRepository.findById(id).orElseThrow();
+            List<Property> properties = new ArrayList<>();
+            properties.add(property);
 
-            //var status = StatusRepo.findByid(1).get();
-//        property.setStatus(status);
+            user.getProperties().add(property);
+            property.setUsers_id(user);
 
 
+            userRepository.save(user);
             property.setStatus(status);
             propertyRepository.save(property);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
 
     }
 

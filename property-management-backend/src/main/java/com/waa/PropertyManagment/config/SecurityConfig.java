@@ -60,6 +60,8 @@ public class SecurityConfig {
 
                 .requestMatchers(HttpMethod.POST, "/api/v1/properties").hasAuthority(Roles.OWNER.name())
                 .requestMatchers(HttpMethod.PUT, "/api/v1/properties/**").hasAuthority(Roles.OWNER.name())
+                .requestMatchers(HttpMethod.POST, "/api/v1/properties/**").hasAuthority(Roles.OWNER.name())
+
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/properties/**").hasAuthority(Roles.OWNER.name())
                 .requestMatchers(HttpMethod.PUT, "/api/v1/properties/owner/**").hasAuthority(Roles.OWNER.name())
 //                .requestMatchers(HttpMethod.PUT, "/api/v1/properties/owner/*/availabe").hasAuthority(Roles.OWNER.name())
