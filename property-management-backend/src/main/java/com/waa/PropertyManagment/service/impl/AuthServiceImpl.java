@@ -38,12 +38,12 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final JwtUtil jwtUtil;
+    @Autowired
     private final UserRepository userRepo;
     private final RoleRepo roleRepo;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Autowired
-    private UserRepository userRepository;
+
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
@@ -57,12 +57,13 @@ public class AuthServiceImpl implements AuthService {
                     .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());
 
-            long userId = userRepository.findByEmail(userDetails.getUsername()).getId();
+            long userId = userRepo.findByEmail(userDetails.getUsername()).getId();
             var loginResponse = new LoginResponse(accessToken, roles, userId);
             return loginResponse;
         } catch (BadCredentialsException e) {
             System.out.println("ISSUE" + e.getMessage());
             throw new BadCredentialsException(e.getMessage());
+
         }
     }
 
