@@ -2,10 +2,12 @@ package com.waa.PropertyManagment.service.impl;
 
 import com.waa.PropertyManagment.entity.Property;
 import com.waa.PropertyManagment.entity.Status;
+import com.waa.PropertyManagment.entity.User;
 import com.waa.PropertyManagment.entity.dto.PropertyDto;
 import com.waa.PropertyManagment.entity.dto.PropertySearchDao;
 import com.waa.PropertyManagment.entity.dto.SearchCriteria;
 import com.waa.PropertyManagment.repository.PropertyRepository;
+import com.waa.PropertyManagment.repository.UserRepository;
 import com.waa.PropertyManagment.service.PropertyService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class Propertyserviceimpl implements PropertyService {
@@ -23,6 +26,9 @@ public class Propertyserviceimpl implements PropertyService {
     private PropertyRepository propertyRepository;
     @Autowired
     private ModelMapper modelmapper;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public void post(Property property) {
@@ -66,6 +72,15 @@ public class Propertyserviceimpl implements PropertyService {
         }
         return properties;
     }
+    public List<Property> propertiesByUserId(Long id){
+        User user= userRepository.findById(id).get();
+
+        if (Objects.equals(user.getRole(), "OWNER")) {
+            return propertyRepository.findAllById(id);
+        }
+        return null;
+    }
+
 
     @Override
     public void cancelContingency(Long id) {

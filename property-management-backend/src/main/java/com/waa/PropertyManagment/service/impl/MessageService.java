@@ -5,6 +5,8 @@ import com.waa.PropertyManagment.repository.MessageRepository;
 import com.waa.PropertyManagment.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MessageService {
 
@@ -23,32 +25,29 @@ public class MessageService {
     in the database using a MessageRepository.
 * */
 
-    /*public void sendMessage(Long senderId, Message message){
-
-
-
-        Optional<User> senderCondition =userRepository.findById(senderId);
-        Optional<User> recipientCondition= userRepository.findById(message.getRecipient().getId());
-        User sender=senderCondition.get();
-        User recipient= recipientCondition.get();
-        if (senderCondition.isPresent()&&recipientCondition.isPresent()){
-        sender.setSentMessages(Collections.singletonList(message));
-        messageRepository.save(message);
-
-        } else if (senderCondition.isPresent()) {
-            Message message1= new Message();
-            message1.setSender(sender);
-            message1.setRecipient(recipient);
-            message1.setContent(message.getContent());
-            message1.setSubject(message.getSubject());
-            messageRepository.save(message);
-        } else {
-            System.out.println("No such user exist...");
-        }
-
-    }*/
     public Message saveMessage(Message message) {
         return messageRepository.save(message);
+    }
+
+
+    public List<Message> getReceivedMessages(Long recipientId) {
+        return messageRepository.findByRecipientId(recipientId);
+    }
+
+    public List<Message> getSentMessages(Long senderId) {
+        return messageRepository.findBySenderId(senderId);
+    }
+
+    public Message getMessageById(Long messageId) {
+        Message message = messageRepository.findById(messageId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid message Id:" + messageId));
+
+        return message;
+    }
+
+    public void deleteMessage(Long messageId) {
+        Message message = getMessageById(messageId);
+        messageRepository.delete(message);
     }
 }
 

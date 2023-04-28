@@ -15,12 +15,7 @@ import java.time.LocalDate;
 
 @ToString
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Property  {
-
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

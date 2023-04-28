@@ -22,29 +22,29 @@ INSERT INTO users_role (user_id, role_id)
 VALUES (3, 3);
 -- Address data
 INSERT INTO address (id, street, city, state, zip_code)
-VALUES (1, '123 Main St', 'New York', 'NY', '10001'),
-       (2, '456 Central Ave', 'Los Angeles', 'CA', '90001'),
-       (3, '789 Park Ave', 'Chicago', 'IL', '60601'),
-       (4, '321 Oak St', 'Houston', 'TX', '77001'),
-       (5, '654 Elm St', 'Miami', 'FL', '33101');
+VALUES (100, '123 Main St', 'New York', 'NY', '10001'),
+       (101, '456 Central Ave', 'Los Angeles', 'CA', '90001'),
+       (102, '789 Park Ave', 'Chicago', 'IL', '60601'),
+       (103, '321 Oak St', 'Houston', 'TX', '77001'),
+       (104, '654 Elm St', 'Miami', 'FL', '33101');
 
 -- FavoriteList data
 INSERT INTO saved_list (id, name, user_id)
-VALUES (1, 'Johns Favorite Properties', 1),
-       (2, 'Janes Favorite Properties', 2),
-       (3, 'Bobs Favorite Properties', 3);
+VALUES (100, 'Johns Favorite Properties', 1),
+       (101, 'Janes Favorite Properties', 2),
+       (102, 'Bobs Favorite Properties', 3);
 
 -- Property data
 INSERT INTO property (id, property_name, property_type, description, number_of_rooms, rent_Amount, security_deposit_amount, number_of_bath_rooms, image_url, price, posted_date, status, id_address, owner_id, favotite_list_id)
-VALUES (1, 'Luxury Apartment', 'APARTMENT', 'A beautiful luxury apartment in a great location.', 3, 2500.00, 5000.00, 2, 'image_url_1', 350000.00, '2023-04-20', 'AVAILABLE', 1, 1, 1),
-       (2, 'Cozy Condo', 'CONDO', 'A cozy condo with modern amenities.', 2, 1800.00, 3600.00, 1, 'image_url_2', 250000.00, '2023-04-22', 'AVAILABLE', 2, 2, 2),
-       (3, 'Spacious House', 'HOUSE', 'A spacious house with a large backyard.', 4, 3200.00, 6400.00, 3, 'image_url_3', 450000.00, '2023-04-24', 'AVAILABLE', 3, 3, 3);
+VALUES (100, 'Luxury Apartment', 'APARTMENT', 'A beautiful luxury apartment in a great location.', 3, 2500.00, 5000.00, 2, 'image_url_1', 350000.00, '2023-04-20', 'AVAILABLE', 100, 1, 100),
+       (101, 'Cozy Condo', 'CONDO', 'A cozy condo with modern amenities.', 2, 1800.00, 3600.00, 1, 'image_url_2', 250000.00, '2023-04-22', 'AVAILABLE', 101, 2, 101),
+       (102, 'Spacious House', 'HOUSE', 'A spacious house with a large backyard.', 4, 3200.00, 6400.00, 3, 'image_url_3', 450000.00, '2023-04-24', 'AVAILABLE', 102, 3, 102);
 
 -- Offer data
 INSERT INTO offer (id, property_id, customer_id, status, amount)
-VALUES (1, 1, 1, 'PENDING', 340000.00),
-       (2, 2, 2, 'PENDING', 245000.00),
-       (3, 3, 3, 'PENDING', 440000.00);
+VALUES (100, 100, 1, 'PENDING', 340000.00),
+       (101, 101, 2, 'PENDING', 245000.00),
+       (102, 102, 3, 'PENDING', 440000.00);
 -- -- ROLES
 
 ---- Insert properties

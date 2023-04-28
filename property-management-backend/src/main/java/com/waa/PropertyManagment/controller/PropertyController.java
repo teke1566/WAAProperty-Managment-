@@ -9,6 +9,7 @@ import com.waa.PropertyManagment.service.impl.OfferService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -48,11 +49,9 @@ public class PropertyController {
     }
 
     @PutMapping("/owner/{id}")
-    public Property updateProperty(@RequestBody Property property, @PathVariable String id) {
-        Long propertyId = Long.parseLong(id);
-        return propertyService.updateProperty(property, propertyId);
+    public Property updateProperty(@RequestBody Property property, @PathVariable Long id) {
+        return propertyService.updateProperty(property, id);
     }
-
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/owner/{id}")
@@ -80,6 +79,11 @@ public class PropertyController {
         return propertyService.propertiesByAddress(city);
     }
 
+    @GetMapping("/owner/{id}")
+    List<Property> findPropertiesByUsers(@PathVariable Long id){
+        return  propertyService.propertiesByUserId(id);
+    }
+
 
     @GetMapping("/criteria")
     public List<Property> getPropertyByCriteria(@RequestParam(value = "propertyType", required = false) String propertyType,
@@ -97,9 +101,15 @@ public class PropertyController {
         return propertyService.findByAllCriteria(propertyType, city, status, price, numberOfRooms);
     }
 
+    @PutMapping("/owner/{id}/cancelContingency")
+    public void cancelContingency(@PathVariable Long id) {
+        propertyService.cancelContingency(id);
+    }
+
     @GetMapping("/active-offer")
-    public List<Offer> getActiveOffer(){
-        return offerService.findActiveOffer();
+    public ResponseEntity<List<Offer>> getAllActiveOffers() {
+        List<Offer> activeOffers = offerService.findAllActiveOffers();
+        return new ResponseEntity<>(activeOffers, HttpStatus.OK);
     }
 
     // Error handling for AccessDeniedException (403 Forbidden errors)

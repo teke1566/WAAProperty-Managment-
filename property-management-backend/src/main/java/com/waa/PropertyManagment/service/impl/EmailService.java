@@ -1,16 +1,14 @@
 package com.waa.PropertyManagment.service.impl;
 
 
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
+@Component
 public class EmailService {
 
     private final JavaMailSender mailSender;
@@ -19,17 +17,30 @@ public class EmailService {
         this.mailSender = mailSender;
     }
 
-    public void sendEmail(String to, String subject, String body) {
-        MimeMessage message = mailSender.createMimeMessage();
+    //@Value("${spring.mail.username}") private String sender;
+
+    // Method 1
+    // To send a simple email
+    public void sendEmail(String to, String subject, String body)
+    {
+
+        // Try block to check for exceptions
         try {
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setFrom(new InternetAddress("noreply@example.com"));
-            helper.setTo(new InternetAddress(to));
-            helper.setSubject(subject);
-            helper.setText(body, true);
-            mailSender.send(message);
-        } catch (MessagingException e) {
-            throw new RuntimeException("Failed to send email", e);
+
+            // Creating a simple mail message
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+            // Setting up necessary details
+            mailMessage.setFrom("ayaleneh.yilma@gmail.com");
+            mailMessage.setTo(to);
+            mailMessage.setText(body);
+            mailMessage.setSubject(subject);
+            // Sending the mail
+            mailSender.send(mailMessage);
+        }
+
+        // Catch block to handle the exceptions
+        catch (Exception e) {
         }
     }
 }

@@ -14,13 +14,13 @@ public class FavoriteList {
     private Long id;
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
 
     private User customer;
 
 
-   @OneToMany(mappedBy = "favoriteList")
+   @OneToMany(mappedBy = "favoriteList", cascade = CascadeType.ALL)
     private List<Property> properties;
 
 }
